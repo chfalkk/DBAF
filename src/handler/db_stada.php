@@ -96,4 +96,3 @@
             $this->GetData('https://apis.deutschebahn.com/db-api-marketplace/apis/station-data/v2/szentralen/' . $ID);
         }
     }
-?>

@@ -1,10 +1,9 @@
 <?php
-    require '../handler/db_apiquery.php';
-    require '../ressources/IconRessources.php';
+    require_once '../handler/db_fahrplan.php';
+    require_once '../handler/db_stada.php';
+    require '../ressources/iconRessources.php';
 
-
-    class HeaderExtensions{
-
+    class HeaderExtensions {
         /**
          * @return String Einen HTML-Codierten String um den API-Status darzustellen
          */

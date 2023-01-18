@@ -6,47 +6,53 @@
     // Programm-Version
     define('DB_VERSION', '1.2');
 
-    /*
-        Basis-Klasse für DB-API-Abfragen
-        Besitzt JSONResult, Fehlernachricht und eine Methode, um Datenabfragen durchzuführen (GetData)
-    */
+    /**
+     * Basis-Klasse für DB-API-Abfragen
+     * Besitzt JSONResult, Fehlernachricht und eine Methode, um Datenabfragen durchzuführen (GetData) zur Vererbung
+     */
     class DBAPI_Base {
         protected array $JSONResult = [];
         protected String $errorMessage = ''; // errorMessage wird ausgefüllt, wenn Fehler aufgetreten ist -> JSONResult ist leer
         
-        /*
-            Ergebnis der vorherigen Query, falls vorhanden, zurückgeben
-        */
+        /**
+         * @return Array JSON-Ergebnis der vorher ausgeführten Abfrage
+         */
         public function GetJSONResult() {
             return $this->JSONResult;
         }
 
-        /*
-            Fehlernachricht, falls vorhanden, zurückgeben
-        */
+        /**
+         * @return String Fehler-Nachricht der vorher ausgeführten Abfrage (falls fehlgeschlagen) - leer, falls kein Fehler aufgetreten ist
+         */
         public function GetErrorMessage() {
             return $this->errorMessage;
         }
 
-        /*
-            Verfügbarkeit von URL prüfen
-        */
+        /**
+         * HTTP-Code einer URL prüfen
+         * @param String $URL abzufragende URL
+         * @return Integer HTTP-Code
+         */
         protected static function GetHTTPCode(String $URL) {
+            $httpCode = 0;
+            
             $curl = curl_init($URL);
             try {
                 curl_setopt($curl,  CURLOPT_RETURNTRANSFER, true);
 
                 $response = curl_exec($curl);
-                return curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             } finally {
                 curl_close($curl);
             }
+
+            return $httpCode;
         }
 
-        /*
-            Daten von der API abholen (anhand der URL)
-            Ergebnis bzw. auftretende Fehler werden in $JSONResult und $errorMessage gespeichert 
-        */
+        /**
+         * Daten von der API anhand der URL abholen und im JSON-Result speichern
+         * @param String $URL abzufragende URL
+         */
         protected function GetData(String $URL) {
             $this->JSONResult = [];
             $this->errorMessage = '';
@@ -114,9 +120,11 @@
             }
         }
 
-        /*
-            Objekte in einem JSON-Format werden zu Arrays ersetzt, wobei alle Attribute übernommen werden
-        */
+        /**
+         * Objekte innerhalb eines JSON-Formates werden zu Arrays ersetzt, wobei alle Attribute übernommen werden
+         * @param mixed $data JSON-Daten
+         * @return Array formattierte JSON-Daten als Array
+         */
         private function JSONtoArray($data) {
             if (is_object($data)) {
                 // in Array umwandeln
@@ -136,4 +144,3 @@
         }
 
     }
-?>
