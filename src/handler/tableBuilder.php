@@ -1,12 +1,14 @@
 <?php
-    /*
-        Klasse, um Tabellen in HTML-Format aus JSON-Daten (beliebige Arrays) zu erstellen
-    */
+    /**
+     * Klasse, um Tabellen in HTML-Format aus JSON-Daten (beliebige Arrays) zu erstellen
+     */
     class TableBuilder {
-
-        /*
-            Tabelle aufbauen und zurückgeben
-        */
+        /**
+         * Tabelle aufbauen und zurückgeben
+         * @param String $title Tabellen-Titel
+         * @param Array $data JSON-Daten als Array
+         * @return String HTML-Tabelle
+         */
         public static function BuildTable(String $title, array $data) {
             $html =
                 '<div class="db_table">
@@ -25,9 +27,11 @@
             return $html;
         }
 
-        /*
-            Eintrag zu HTML und zurückgeben
-        */
+        /**
+         * Eintrag zu HTML formattieren und zurückgeben
+         * @param mixed $entry auszugebende Daten
+         * @return String Datensatz im HTML-Format
+         */
         private static function EchoEntry($entry) {
             $html = '<td>';
             if (is_array($entry)) {
@@ -42,9 +46,11 @@
             return $html;
         }
 
-        /*
-            prüfen, ob Array eine 2D-Array (Tabelle) ist
-        */
+        /**
+         * prüfen, ob Datensatz ein 2D-Array ist
+         * @param Array $data Datensatz
+         * @return Boolean True, wenn Datensatz ein 2D-Array (Tabelle) ist
+         */
         private static function Is2DTable(array $data) {
             foreach ($data as $entry) {
                 if (!is_array($entry)) {
@@ -55,9 +61,11 @@
             return true;
         }
 
-        /*
-            einzeilige Tabelle erstellen
-        */
+        /**
+         * Einzeilige Tabelle erstellen
+         * @param Array $data JSON-Daten
+         * @return String Tabelle mit Datensatz im HTML-Format
+         */
         private static function Build1DTable(array $data) {
             $html = '<table>';
     
@@ -79,9 +87,11 @@
             return $html;
         }
 
-        /*
-            Tabelle aus Daten aufbauen
-        */
+        /**
+         * 2D-Tabelle aus Datensätzen aufbauen
+         * @param Array $data alle Datensätze
+         * @return String Tabelle mit allen Datensätzen im HTML-Format
+         */
         private static function Build2DTable(array $data) {
             $html = '<table>';
     
