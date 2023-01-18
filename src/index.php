@@ -1,5 +1,5 @@
 <?php
-    require_once 'handler/db_fahrplan.php.php';
+    require_once 'handler/db_fahrplan.php';
     require_once 'handler/db_stada.php';
     require_once 'handler/tableBuilder.php';
 ?>
