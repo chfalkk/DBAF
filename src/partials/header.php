@@ -4,6 +4,9 @@
 
 ?>
 
+
+<script src="../js/navbar/navbar.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,29 +19,25 @@
         <a class="nav-link" href="#">DBAF <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Fahrplanauskunft</a>
+        <a class="nav-link" href="fahrplanauskunft.php">Fahrplanauskunft</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Über uns</a>
+        <a class="nav-link" href="about_us.php">Über uns</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Test [DEV ONLY - REMOVE LATER]</a>
+        <a class="nav-link" href="test.php">Test [DEV ONLY - REMOVE LATER]</a>
       </li>
     </ul>
-    <div class="form-inline my-2 my-lg-0 dbaf-icon-div">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Settings <i class="fa-solid fa-gear"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-            <label class="switch">
-                <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-        </div>
+
+  <div class="mr-sm-2">
+      <?php HeaderExtensions::DisplayAPIStatus() ?>
+  </div>
+
+    <div class="my-2 my-lg-0">
+      <label class="switch">
+        <input class="dbaf-input" type="checkbox" id="dbaf-darkmode-toggle">
+        <span class="slider round"></span>
+      </label>
     </div>
   </div>
 </nav>
-
-<script src="./js/navbar/navbar.js"></script>

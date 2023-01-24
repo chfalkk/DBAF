@@ -20,23 +20,35 @@
                 ? IconRessources::$APIAvailable 
                 : IconRessources::$APINotAvailable;
 
-            $StaDaPillClass = ($StaDaStatus) ? "success" : "warning";
-            $FahrplanPillClass = ($StaDaStatus) ? "success" : "warning";
-
-            $PillDescription = " In diesem Element sehen Sie den Status der Bahn-API. \n
-            ROT bedeutet, dass die API nicht erreichbar ist. Dementsprechend können einige Kernfunktionalitäten der Anwendung nicht benutzt werden!\n
-            GRÜN bedeutet, dass die API erreichbar ist. Alle Funktionalitäten können wie erwartet benutzt werden.";
+            $FahrplanAPIErreichbarText = ($FahrplanAPIStatus) ? "Die Fahrplan-API ist erreichbar" : "Die Fahrplan-API ist nicht erreichbar";
+            $StaDaErreichbarText = ($StaDaStatus) ? "Die StaDa-API ist erreichbar" : "Die StaDa-API ist nicht erreichbar";
 
 
-            
-        $res = "<span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Disabled tooltip\">
-                        <button class=\"badge badge-pill badge-".$StaDaPillClass."\" style=\"pointer-events: none;\" type=\"button\" disabled>".$StaDaIcon . $PillDescription."</button>
-                    </span>";
-        $res .= "<span class=\"d-inline-block\" tabindex=\"0\" data-toggle=\"tooltip\" title=\"Disabled tooltip\">
-                        <button class=\"badge badge-pill badge-".$FahrplanPillClass."\" style=\"pointer-events: none;\" type=\"button\" disabled>".$FahrplanStatusIcon . $PillDescription."</button>
-                    </span>";
+            $reddot = "<span class=\"badge badge-pill dbaf-err-dot\">".IconRessources::$APINotAvailable."</span>";
+            $greendot = "<span class=\"badge badge-pill dbaf-suc-dot\">".IconRessources::$APIAvailable."</span>";
 
-            
+            $FahrplanDot = ($FahrplanAPIStatus) ? $greendot : $reddot;
+            $StaDaDot = ($StaDaStatus) ? $greendot : $reddot;
+
+            $res = '<div class="dropdown dropleft">
+                        <button class="btn btn-dbaf dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            API-Stati
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item disabled" href="#" data-toggle="tooltip" data-placement="left">'.$FahrplanDot." ".$FahrplanAPIErreichbarText.'</a>
+                        <a class="dropdown-item disabled" href="#" data-toggle="tooltip" data-placement="left">'.$StaDaDot." ".$StaDaErreichbarText.'</a>
+                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item dbaf-hover-display">'.IconRessources::$Information.' Informationen zum API-Status</a>
+                            <a class="dbaf-hide">
+                            <p>In diesem Element sehen Sie den Status der Bahn-API.</p> 
+                            <p>ROT bedeutet, dass die API nicht erreichbar ist. Dementsprechend können einige Kernfunktionalitäten der Anwendung nicht benutzt werden!</p>
+                            <p>GRÜN bedeutet, dass die API erreichbar ist. Alle Funktionalitäten können wie erwartet benutzt werden.</p>
+                            </a>
+                        </div>
+                    </div>';
+
+
+            echo $res;
         }
 
     }
