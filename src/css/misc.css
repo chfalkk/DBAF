@@ -1,0 +1,54 @@
+.dbaf-hide{
+    display: none;
+}
+
+.dbaf-hover-display:hover + .hide{
+    display: block;
+}
+
+
+
+
+
+
+
+.dbaf-dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dbaf-err-dot{
+    background-color: #f1603f;
+}
+
+.dbaf-suc-dot{
+    background-color: #6ee465;
+}
+
+.dbaf-pill-icon{
+    color: #000;
+}
+
+.dbaf-input:active{
+    accent-color: #D0572E !important;
+}
+
+.btn-dbaf{
+    background-color: #D0572E;
+    color: #fff;
+}
+
+.btn-dbaf:hover{
+    background-color: #fff;
+    color: #D0572E;
+    accent-color: #D0572E;
+}
+
+.btn-dbaf:active{
+    background-color: #fff;
+    color: #D0572E;
+    accent-color: #D0572E;
+}
