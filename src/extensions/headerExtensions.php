@@ -1,19 +1,24 @@
 <?php
-    require_once '../handler/db_fahrplan.php';
-    require_once '../handler/db_stada.php';
-    require '../ressources/iconRessources.php';
+    require_once './handler/db_fahrplan.php';
+    require_once './handler/db_stada.php';
+    require './ressources/iconRessources.php';
 
     class HeaderExtensions {
         /**
          * @return String Einen HTML-Codierten String um den API-Status darzustellen
          */
         public static function DisplayAPIStatus(){
+
             $StaDaStatus = DBAPI_StaDa::StaDaIsAvailable();
             $FahrplanAPIStatus = DBAPI_Fahrplan::FahrplanIsAvailable();
 
+            $StaDaIcon = ($StaDaStatus) 
+                ? IconRessources::$APIAvailable 
+                : IconRessources::$APINotAvailable;
 
-            $StaDaIcon = ($StaDaStatus) ? IconRessources::$APIAvailable : IconRessources::$APINotAvailable;
-            $FahrplanStatusIcon = ($FahrplanAPIStatus) ? IconRessources::$APIAvailable : IconRessources::$APINotAvailable;
+            $FahrplanStatusIcon = ($FahrplanAPIStatus) 
+                ? IconRessources::$APIAvailable 
+                : IconRessources::$APINotAvailable;
 
             $StaDaPillClass = ($StaDaStatus) ? "success" : "warning";
             $FahrplanPillClass = ($StaDaStatus) ? "success" : "warning";
