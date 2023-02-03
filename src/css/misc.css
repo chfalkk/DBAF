@@ -1,17 +1,3 @@
-.dbaf-hide{
-    display: none;
-}
-
-.dbaf-hover-display:hover + .hide{
-    display: block;
-}
-
-
-
-
-
-
-
 .dbaf-dot {
     height: 25px;
     width: 25px;
@@ -20,34 +6,35 @@
     display: inline-block;
 }
 
-.dbaf-err-dot{
+.dbaf-err-dot {
     background-color: #f1603f;
 }
 
-.dbaf-suc-dot{
+.dbaf-suc-dot {
     background-color: #6ee465;
 }
 
-.dbaf-pill-icon{
+.dbaf-pill-icon {
     color: #000;
 }
 
-.dbaf-input:active{
+.dbaf-input:active {
     accent-color: #D0572E !important;
 }
 
-.btn-dbaf{
+.btn-dbaf {
+    border: 1px solid #D0572E;
     background-color: #D0572E;
     color: #fff;
 }
 
-.btn-dbaf:hover{
+.btn-dbaf:hover {
     background-color: #fff;
     color: #D0572E;
     accent-color: #D0572E;
 }
 
-.btn-dbaf:active{
+.btn-dbaf:active {
     background-color: #fff;
     color: #D0572E;
     accent-color: #D0572E;

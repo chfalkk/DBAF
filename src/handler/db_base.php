@@ -4,7 +4,7 @@
     define('DB_SECRET_KEY', '5e8f7211db219325fc4ac3cdeac04060');
 
     // Programm-Version
-    define('DB_VERSION', '1.2');
+    define('DB_VERSION', '1.2.1');
 
     /**
      * Basis-Klasse für DB-API-Abfragen

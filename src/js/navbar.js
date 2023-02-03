@@ -1,3 +1,5 @@
+// TODO: Darkmode
+
 $(document).on("ready", () => {
     
     let toggler = $("#dbaf-darkmode-toggle");
