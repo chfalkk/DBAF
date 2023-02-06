@@ -23,28 +23,94 @@
     <body>
         <?php 
             require_once "partials/header.php";
+            require_once "./ressources/iconRessources.php";
+            require_once "./extensions/htmlExtension.php";
         ?>
 
         <div id="dbaf-main-div">
-            <h1>FAHRPLANAUSKUNFT</h1>
+            
+        <?php HTMLExtension::BuildSectionHeading("FAHRPLANAUSKUNFT") ?>
 
             <?php
+                // Instanzierung des Handlers
                 $handler = new MainHandler();
                 $stations = $handler->GetAllStations();
+            
+                // Display WARN-BOX wenn API nicht erreichbar
+                if(!DBAPI_Fahrplan::FahrplanIsAvailable()){
+                    HTMLExtension::BuildWarnPanel("Die Fahrplan-API ist zur Zeit nicht erreichbar!");
+                }
+            ?>
+
+            <div class="dbaf-form">
+
+            <?php
+                $formHeading = sprintf("Bahnhof auswählen (%s verfügbar):", count($stations));
+                HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
             <form action="" method="POST">
-                <label for="stations">Bahnhof auswählen (<?php echo count($stations); ?> verfügbar):</label>
-                <select name="stations" id="dbaf-dropdown-station">
-                    <?php
-                        foreach ($stations as $station) {
-                            echo '<option value="volvo">' . $station . '</option>';
-                        }
-                    ?>
-                </select>
 
-                <input name="date" type="date">
+            <div class="form-row">
+                <div class="form-group mb-3">
+                    <label for="dbaf-station-picker">Abfahrtsbahnhof:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <?php echo IconRessources::$GeoDot ?>
+                            </span>
+                        </div>
+
+                        <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen">
+                            <?php
+                                foreach ($stations as $station) {
+                                    echo '<option value="volvo">' . $station . '</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AUSWAHL NUR START-DATUM -->
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="checkbox" id="dbaf-date-radio" class="dbaf-radio" aria-label="Auswahl, ob nur nach dem Startdatum gesucht werden soll.">
+                        Nur nach dem Startdatum suchen
+                    </input>
+                </div>
+            </div>
+
+            <div class="form-row">
+
+                <!-- ANKUNFTS-DATUM -->
+                <div class="form-group col-md-6">
+                <label for="dbaf-ankunfts-datepicker">Ankunftsdatum:</label>
+                    <div class="input-group md-3">
+                        <input type="date" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
+                    </div>
+                </div>
+
+                <!-- ABFAHRTS-DATUM -->
+                <div class="form-group col-md-6">
+                    <label for="dbaf-abfahrts-datepicker">Abfahrtsdatum:</label>
+                    <div class="input-group md-3">
+                        <input type="date" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UHRZEIT-AUSWAHL -->
+            <div class="form-row">
+
+                <!-- TODO -->
+
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
+
             </form>
+            </div>
             
         </div> <!-- #main-div -->
 
