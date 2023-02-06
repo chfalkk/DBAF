@@ -1,0 +1,46 @@
+.dbaf-panel {
+    margin-top: 2rem;
+    background-color: #ECECEC;
+    border-left: 7px solid #BBB;
+    border-radius: 5px;
+    padding: 3% 4%;
+}
+
+.baf-panel p {
+    font-weight: bold;
+}
+
+.dbaf-panel-closer{
+    left: 0%;
+    right: 100%;
+}
+
+.dbaf-panel-closer:hover{
+    cursor: pointer;
+}
+
+.dbaf-panel-info{
+    background-color: rgb(90, 168, 217);
+    border-left: 7px rgb(90, 118, 217) solid;
+    border-radius: 2px;
+}
+
+.dbaf-panel-success{
+    background-color: rgb(77, 156, 77);
+    border-left: 7px rgb(77, 106, 77) solid;
+    border-radius: 2px;
+}
+
+.dbaf-panel-wrn{
+    background-color: #ffe781;
+    border-left: 7px solid #e2c54b;
+    border-radius: 2px;
+    color: #9e8936;
+}
+
+.dbaf-panel-err{
+    background-color: rgb(250, 171, 135);
+    border-left: 7px rgb(250, 121, 135) solid;
+    border-radius: 2px;
+}
+
