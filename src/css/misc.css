@@ -38,7 +38,7 @@
 }
 
 .dbaf-form{
-    border-left: #D0572E 2px solid;
+    border-left: #D0572E 4px solid;
     border-radius: 2px;
     background-color: rgb(240, 240, 240);
     padding: 2rem;
@@ -46,7 +46,7 @@
     margin-bottom: 2rem;
 }
 
-.dbaf-input:active {
+.dbaf-input:active, .dbaf-check {
     accent-color: #D0572E !important;
 }
 
