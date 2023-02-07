@@ -74,7 +74,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-row">
 
                 <!-- ABFAHRTS-DATUM -->
@@ -91,15 +90,6 @@
                     <div class="input-group md-3">
                         <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
                     </div>
-                </div>
-            </div>
-
-            <!-- AUSWAHL NUR START-DATUM -->
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="checkbox" id="dbaf-date-toggler" class="dbaf-check" name="dbaf-date-toggler" aria-label="Auswahl, ob nur nach dem Startdatum gesucht werden soll.">
-                    Nur nach dem Startdatum suchen
-                    </input>
                 </div>
             </div>
 
