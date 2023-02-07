@@ -9,7 +9,7 @@
     class HeaderExtension {
         /**
          * Funktion, um eine Status-Anzeige der API darzustellen
-         * @return String HTML-Codierten String
+         * @return Void Displayed den HTML-Codierten String dar
          */
         public static function DisplayAPIStatus(){
             $StaDaStatus = DBAPI_StaDa::StaDaIsAvailable();
