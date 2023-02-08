@@ -41,7 +41,7 @@
             
                 // Display WARN-BOX wenn API nicht erreichbar
                 if(!DBAPI_Fahrplan::FahrplanIsAvailable()){
-                    HTMLExtension::BuildWarnPanel("Die Fahrplan-API ist zur Zeit nicht erreichbar!");
+                    HTMLExtension::BuildPanel(PanelType::Warn, "Die Fahrplan-API ist zur Zeit nicht erreichbar");
                 }
             ?>
 
