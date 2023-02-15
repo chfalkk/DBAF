@@ -18,6 +18,7 @@ $(window).on("load", () => {
     toggler.on("change", () => {
         ToggleVisibility(ankunftsDatumInput);
         ToggleVisibility(ankunftsDatumLabel);
+        ToggleVisibility(todayButtonAnkunft);
     });
 });
 
