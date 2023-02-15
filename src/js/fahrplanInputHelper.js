@@ -7,13 +7,12 @@ $(window).on("load", () => {
     let ankunftsDatumInput = $("#dbaf-ankunfts-datepicker");
     let ankunftsDatumLabel = $("#dbaf-ankunfts-datepicker-label");
 
-    let todayButton = $("#dbaf-today-btn");
+    let todayButtonAbfahrt = $("#dbaf-today-btn-abfahrt");
+    let todayButtonAnkunft = $("#dbaf-today-btn-ankunft");
 
     // Setzt das Datum auf den aktuellen Tag im Inputfeld
-    todayButton.on("click", () => {
-        console.log(DateFormatter.FormattedDate);
-        abfahrtsDatumInput.val(DateFormatter.FormattedDate);
-    });
+    todayButtonAbfahrt.on("click", () => { abfahrtsDatumInput.val(DateFormatter.FormattedDate); });
+    todayButtonAnkunft.on("click", () => { abfahrtsDatumInput.val(DateFormatter.FormattedDate); });
 
     // Togglet die sichtbarkeit der Input-Gruppe zum Ankunftsdatum
     toggler.on("change", () => {
@@ -63,7 +62,7 @@ const DateFormatter = {
         let month = today.getUTCMonth("de");
 
         // Addiere 1 auf Monatszahl herauf, um richtigen Monat zu erhalten 
-        // -> benötigt, da getUTCMonth() darauf abziehlt die herauskommende Zahl zum Mapping des Monats-Strings zu benutzen  
+        // -> benötigt, da getUTCMonth() darauf abzielt die herauskommende Zahl zum Mapping des Monats-Strings zu benutzen  
         month = parseInt(month) + 1;
         month = month.toString();
 
@@ -72,7 +71,7 @@ const DateFormatter = {
         }
 
         let day = today.getUTCDate();
-        let time = today.toLocaleTimeString("de").slice(0, 5); // discard seconds
+        let time = today.toLocaleTimeString("de").slice(0, 5); // Sekunden entfernen, da nicht benötigt
 
         return `${year}-${month}-${day}T${time}`;
     }

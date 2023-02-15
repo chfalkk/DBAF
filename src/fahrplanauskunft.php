@@ -53,7 +53,7 @@
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
-            <form action="fahrplanauskunft.php" method="POST">
+            <form action="" method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -84,7 +84,7 @@
                         <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
                     </div>
 
-                    <button class="btn btn-dbaf btn-sm" id="dbaf-today-btn"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</button>
+                    <button class="btn btn-dbaf btn-sm" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</button>
                 </div>
 
                 <!-- ANKUNFTS-DATUM -->
@@ -93,6 +93,8 @@
                     <div class="input-group md-3">
                         <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
                     </div>
+
+                    <button class="btn btn-dbaf btn-sm" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</button>
                 </div>
             </div>
 
