@@ -54,3 +54,7 @@
 .dbaf-form-elm{
     margin-left: 1rem;
 }
+
+.form-group > .dbaf-btn-div{
+    margin-top: 5px;
+}

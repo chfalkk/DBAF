@@ -139,7 +139,7 @@ class HTMLExtension {
 
         $msg = ($panel == (int) PanelType::Error) 
             ? "<span><b> $fehlernachricht: </b> $message </span>"
-            : $message;
+            : " $message";
         
         $res .= $msg;
         $res .= "</div>";

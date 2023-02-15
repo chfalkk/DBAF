@@ -24,10 +24,11 @@
         <script src="js/fahrplanInputHelper.js"></script>
     </head>
     <body>
-        <?php 
+        <?php //IMPORTS
             require_once "partials/header.php";
             require_once "./ressources/iconRessources.php";
             require_once "./extensions/htmlExtension.php";
+            require_once "./handler/db_fahrplan.php";
         ?>
 
         <div id="dbaf-main-div">
@@ -52,7 +53,7 @@
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
-            <form action="" method="POST">
+            <form method="POST" action="">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -64,10 +65,10 @@
                             </span>
                         </div>
 
-                        <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen">
+                        <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
                             <?php
                                 foreach ($stations as $station) {
-                                    echo '<option value="volvo">' . $station . '</option>';
+                                    echo '<option value="'.$station.'">' . $station . '</option>';
                                 }
                             ?>
                         </select>
@@ -80,8 +81,10 @@
                 <div class="form-group col-md-6">
                     <label for="dbaf-abfahrts-datepicker">Abfahrtsdatum:</label>
                     <div class="input-group md-3">
-                        <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
+                        <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
                     </div>
+
+                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                 </div>
 
                 <!-- ANKUNFTS-DATUM -->
@@ -90,15 +93,32 @@
                     <div class="input-group md-3">
                         <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
                     </div>
+
+                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
+                </div>
+            </div>
+              
+            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="input-group md-3">
+                        <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
+                        <label class="form-check-label" for="dbaf-date-toggler"> Nur nach dem Abfahrtsdatum suchen</label>
+                    </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
+            <button type="submit" name="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
 
             </form>
             </div>
             
         </div> <!-- #main-div -->
+
+        <!-- RESPONSE-SEKTION -->
+        <div>
+            <?php require "./partials/fahrplanResult.php"; ?> 
+        </div>
 
         <?php
             require_once 'partials/footer.php';
