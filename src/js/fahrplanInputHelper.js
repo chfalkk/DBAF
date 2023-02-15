@@ -12,7 +12,7 @@ $(window).on("load", () => {
 
     // Setzt das Datum auf den aktuellen Tag im Inputfeld
     todayButtonAbfahrt.on("click", () => { abfahrtsDatumInput.val(DateFormatter.FormattedDate); });
-    todayButtonAnkunft.on("click", () => { abfahrtsDatumInput.val(DateFormatter.FormattedDate); });
+    todayButtonAnkunft.on("click", () => { ankunftsDatumInput.val(DateFormatter.FormattedDate); });
 
     // Togglet die sichtbarkeit der Input-Gruppe zum Ankunftsdatum
     toggler.on("change", () => {
