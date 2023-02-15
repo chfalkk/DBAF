@@ -84,7 +84,7 @@
                         <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
                     </div>
 
-                    <button class="btn btn-dbaf btn-sm" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</button>
+                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                 </div>
 
                 <!-- ANKUNFTS-DATUM -->
@@ -94,7 +94,7 @@
                         <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
                     </div>
 
-                    <button class="btn btn-dbaf btn-sm" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</button>
+                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                 </div>
             </div>
 
