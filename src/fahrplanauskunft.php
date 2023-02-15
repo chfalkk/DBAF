@@ -53,7 +53,7 @@
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
-            <form method="POST">
+            <form method="POST" action="">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -117,7 +117,7 @@
 
         <!-- RESPONSE-SEKTION -->
         <div>
-            <?php require "./partials/fahrplanResult.php";?> 
+            <?php require "./partials/fahrplanResult.php"; ?> 
         </div>
 
         <?php

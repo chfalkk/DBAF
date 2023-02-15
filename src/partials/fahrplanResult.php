@@ -1,5 +1,7 @@
 <?php
 
+echo "test";
+
 if(isset($_POST['submit'])){
 
     $abfahrtsbahnhof = $_POST['stations'];
