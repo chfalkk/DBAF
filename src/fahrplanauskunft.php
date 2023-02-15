@@ -53,7 +53,7 @@
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
-            <form action="" method="POST">
+            <form method="POST">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -68,7 +68,7 @@
                         <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
                             <?php
                                 foreach ($stations as $station) {
-                                    echo '<option value="volvo">' . $station . '</option>';
+                                    echo '<option value="'.$station.'">' . $station . '</option>';
                                 }
                             ?>
                         </select>
@@ -98,6 +98,7 @@
                 </div>
             </div>
 
+            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <div class="input-group md-3">
@@ -107,7 +108,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
+            <button type="submit" name="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
 
             </form>
             </div>
@@ -116,21 +117,7 @@
 
         <!-- RESPONSE-SEKTION -->
         <div>
-            <?php 
-                if(isset($_POST)){
-
-                    $abfahrtsbahnhof = $_POST['stations'];
-                    $abfahrtsdatum = $_POST['dbaf-abfahrts-datepicker'];
-                    $ankunftsdatum = $_POST['dbaf-ankunfts-datepicker'];
-                    $onlyAbfahrt = $_POST['dbaf-date-toggler'];
-
-                    var_dump($abfahrtsbahnhof);
-                    var_dump($abfahrtsdatum);
-                    var_dump($ankunftsdatum);
-                    var_dump($onlyAbfahrt);
-
-                }
-            ?>
+            <?php require "./partials/fahrplanResult.php";?> 
         </div>
 
         <?php
