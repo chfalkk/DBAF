@@ -25,14 +25,17 @@
     <body>
         <?php 
             require_once 'partials/header.php';
+            require_once "./ressources/iconRessources.php";
+            require_once "./extensions/htmlExtension.php";
         ?>
 
         <div id="dbaf-main-div">
             
             <!-- TODO: Content -->
-            <h1>HOME-PAGE</h1>
+            <?php HTMLExtension::BuildSectionHeading("HOME-PAGE") ?>
 
-            <p>Dev-Note: Ich würde mich an den vorherigen Buch-Projekten der anderen Gruppen "inspirieren" und Kacheln mit Bildern erstellen, welche zu den einzelnen Websites verweisen (z.B. Fahrplanauskunft)</p>
+
+            <?php HTMLExtension::BuildPanel(PanelType::Info, "Dev-Note: Ich würde mich an den vorherigen Buch-Projekten der anderen Gruppen \"inspirieren\" und Kacheln mit Bildern erstellen, welche zu den einzelnen Websites verweisen (z.B. Fahrplanauskunft)") ?>
 
         </div> <!-- #main-div -->
 

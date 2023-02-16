@@ -38,7 +38,7 @@ class FahrplanRequest extends RequestBase{
     */
     public function HandleRequest(){
             
-        // Display WARN-BOX wenn API nicht erreichbar
+        // Display ERROR-BOX wenn API nicht erreichbar
         if(!DBAPI_Fahrplan::FahrplanIsAvailable()){
             return HTMLExtension::BuildPanel(PanelType::Error, "Die Fahrplan-API ist zur Zeit nicht erreichbar");
         }
