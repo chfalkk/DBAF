@@ -29,6 +29,7 @@
             require_once "./ressources/iconRessources.php";
             require_once "./extensions/htmlExtension.php";
             require_once "./handler/db_fahrplan.php";
+            require_once "./dataobjects/Requests.php";
         ?>
 
         <div id="dbaf-main-div">
@@ -53,7 +54,7 @@
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 
-            <form method="POST" action="">
+            <form action="" method="post">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -101,9 +102,11 @@
             <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <div class="input-group md-3">
+                    <div class="input-group md-3 dbaf-form-checkbox">
                         <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
-                        <label class="form-check-label" for="dbaf-date-toggler"> Nur nach dem Abfahrtsdatum suchen</label>
+                        <label class="form-check-label" for="dbaf-date-toggler">
+                            Nur nach dem Abfahrtsdatum suchen
+                        </label>
                     </div>
                 </div>
             </div>
@@ -113,12 +116,13 @@
             </form>
             </div>
             
-        </div> <!-- #main-div -->
 
         <!-- RESPONSE-SEKTION -->
         <div>
-            <?php require "./partials/fahrplanResult.php"; ?> 
+            <?php require "./partials/fahrplanResult.php"; ?>
         </div>
+
+        </div> <!-- #main-div -->
 
         <?php
             require_once 'partials/footer.php';
