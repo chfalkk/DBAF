@@ -98,7 +98,7 @@
                     <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                 </div>
             </div>
-
+              
             <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
             <div class="form-row">
                 <div class="form-group col-md-6">
