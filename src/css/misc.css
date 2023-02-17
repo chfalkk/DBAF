@@ -25,6 +25,7 @@
 }
 
 .btn-dbaf:hover {
+    cursor: pointer;
     background-color: #fff;
     color: #D0572E;
     accent-color: #D0572E;

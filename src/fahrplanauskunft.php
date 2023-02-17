@@ -111,7 +111,9 @@
                 </div>
             </div>
 
-            <button type="submit" name="submit" class="btn btn-primary btn-dbaf"><?php echo IconRessources::$Suchen ?> Fahrpläne suchen</button>
+            <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
+                <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
+            </button>
 
             </form>
             </div>

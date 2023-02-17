@@ -95,6 +95,7 @@ class HTMLExtension {
      * @param PanelType $panel Der Typ des Panels
      * @param String $message Die anzuzeigende Nachricht
      * @param ?String $fehlermessage Die Fehlernachricht die angezeigt werden soll
+     * @return Void Zeigt das Panel an
      */
     public static function BuildPanel(int|PanelType $panel, string $message, ?string $fehlermessage = null){
 
