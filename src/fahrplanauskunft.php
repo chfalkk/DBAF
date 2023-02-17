@@ -30,6 +30,7 @@
             require_once "./extensions/htmlExtension.php";
             require_once "./handler/db_fahrplan.php";
             require_once "./dataobjects/Requests.php";
+
         ?>
 
         <div id="dbaf-main-div">
@@ -53,6 +54,7 @@
                 $formHeading = sprintf("Bahnhof auswählen (%s verfügbar):", count($stations));
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
+
 
             <form action="" method="post">
 
@@ -84,7 +86,6 @@
                         <div class="input-group md-3">
                             <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
                         </div>
-
                         <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                     </div>
 
@@ -97,7 +98,9 @@
 
                         <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                     </div>
+                    
                 </div>
+
                 
                 <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
                 <div class="form-row">
@@ -108,6 +111,18 @@
                                 Nur nach dem Abfahrtsdatum suchen
                             </label>
                         </div>
+                    </div>
+
+                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
+                </div>
+            </div>
+              
+            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="input-group md-3">
+                        <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
+                        <label class="form-check-label" for="dbaf-date-toggler"> Nur nach dem Abfahrtsdatum suchen</label>
                     </div>
                 </div>
 
@@ -125,6 +140,11 @@
         </div>
 
         </div> <!-- #main-div -->
+
+        <!-- RESPONSE-SEKTION -->
+        <div>
+            <?php require "./partials/fahrplanResult.php"; ?> 
+        </div>
 
         <?php
             require_once 'partials/footer.php';
