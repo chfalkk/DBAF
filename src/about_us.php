@@ -23,12 +23,14 @@
     <body>
         <?php 
             require_once "partials/header.php";
+            require_once "./ressources/iconRessources.php";
+            require_once "./extensions/htmlExtension.php";
         ?>
 
         <div id="dbaf-main-div">
             
             <!-- TODO: Content -->
-            <h1>ÜBER UNS</h1>
+            <?php HTMLExtension::BuildSectionHeading("ÜBER UNS") ?>
 
         </div> <!-- #main-div -->
 

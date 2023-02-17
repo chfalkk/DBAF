@@ -25,6 +25,7 @@
 }
 
 .btn-dbaf:hover {
+    cursor: pointer;
     background-color: #fff;
     color: #D0572E;
     accent-color: #D0572E;
@@ -46,6 +47,13 @@
     margin-bottom: 2rem;
 }
 
+.dbaf-form-checkbox{
+    font-size: medium;
+}
+
+.dbaf-check{
+    margin-right: 5px;
+}
 
 .dbaf-input:active, .dbaf-check {
     accent-color: #D0572E !important;

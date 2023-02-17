@@ -1,6 +1,7 @@
 @import url(./toggler.css);
 @import url(./misc.css);
 @import url(./htmlExtension.css);
+@import url(./indexTiles.css);
 
 * {
     font-family: 'Ubuntu', sans-serif;
