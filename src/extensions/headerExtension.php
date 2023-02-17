@@ -11,7 +11,7 @@
          * Funktion, um eine Status-Anzeige der API darzustellen
          * @return Void Displayed den HTML-Codierten String dar
          */
-        public static function DisplayAPIStatus(){
+        public static function DisplayAPIStatus() {
             $StaDaStatus = DBAPI_StaDa::StaDaIsAvailable();
             $FahrplanAPIStatus = DBAPI_Fahrplan::FahrplanIsAvailable();
 
@@ -47,7 +47,7 @@
                             API-Status
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item disabled" href="#" data-toggle="tooltip" data-placement="left">' . $FahrplanDot . ' ' .$FahrplanAPIErreichbarText . '</a>
+                        <a class="dropdown-item disabled" href="#" data-toggle="tooltip" data-placement="left">' . $FahrplanDot . ' ' . $FahrplanAPIErreichbarText . '</a>
                         <a class="dropdown-item disabled" href="#" data-toggle="tooltip" data-placement="left">' . $StaDaDot . ' ' . $StaDaErreichbarText . '</a>
                     </div>';
 

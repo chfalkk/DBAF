@@ -34,7 +34,7 @@
 
         <div id="dbaf-main-div">
             
-        <?php HTMLExtension::BuildSectionHeading("FAHRPLANAUSKUNFT") ?>
+            <?php HTMLExtension::BuildSectionHeading("FAHRPLANAUSKUNFT") ?>
 
             <?php
                 // Instanzierung des Handlers
@@ -56,67 +56,67 @@
 
             <form action="" method="post">
 
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="dbaf-station-picker">Abfahrtsbahnhof:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">
-                                <?php echo IconRessources::$GeoDot ?>
-                            </span>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="dbaf-station-picker">Abfahrtsbahnhof:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <?php echo IconRessources::$GeoDot ?>
+                                </span>
+                            </div>
+
+                            <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
+                                <?php
+                                    foreach ($stations as $station) {
+                                        echo '<option value="'.$station.'">' . $station . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+
+                    <!-- ABFAHRTS-DATUM -->
+                    <div class="form-group col-md-6">
+                        <label for="dbaf-abfahrts-datepicker">Abfahrtsdatum:</label>
+                        <div class="input-group md-3">
+                            <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
                         </div>
 
-                        <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
-                            <?php
-                                foreach ($stations as $station) {
-                                    echo '<option value="'.$station.'">' . $station . '</option>';
-                                }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-
-                <!-- ABFAHRTS-DATUM -->
-                <div class="form-group col-md-6">
-                    <label for="dbaf-abfahrts-datepicker">Abfahrtsdatum:</label>
-                    <div class="input-group md-3">
-                        <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
+                        <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                     </div>
 
-                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
-                </div>
+                    <!-- ANKUNFTS-DATUM -->
+                    <div class="form-group col-md-6">
+                    <label for="dbaf-ankunfts-datepicker" id="dbaf-ankunfts-datepicker-label">Ankunftsdatum:</label>
+                        <div class="input-group md-3">
+                            <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
+                        </div>
 
-                <!-- ANKUNFTS-DATUM -->
-                <div class="form-group col-md-6">
-                <label for="dbaf-ankunfts-datepicker" id="dbaf-ankunfts-datepicker-label">Ankunftsdatum:</label>
-                    <div class="input-group md-3">
-                        <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
-                    </div>
-
-                    <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
-                </div>
-            </div>
-              
-            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <div class="input-group md-3 dbaf-form-checkbox">
-                        <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
-                        <label class="form-check-label" for="dbaf-date-toggler">
-                            Nur nach dem Abfahrtsdatum suchen
-                        </label>
+                        <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                     </div>
                 </div>
-            </div>
+                
+                <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <div class="input-group md-3 dbaf-form-checkbox">
+                            <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler"/>
+                            <label class="form-check-label" for="dbaf-date-toggler">
+                                Nur nach dem Abfahrtsdatum suchen
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-            <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
-                <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
-            </button>
+                <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
+                    <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
+                </button>
 
             </form>
-            </div>
+        </div>
             
 
         <!-- RESPONSE-SEKTION -->

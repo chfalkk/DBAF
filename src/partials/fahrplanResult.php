@@ -9,7 +9,8 @@
         $ankunftsdatum = ($_POST['dbaf-ankunfts-datepicker'] == "") ? null : $_POST['dbaf-ankunfts-datepicker'];
 
         // Umwandlung in Bool
-        $onlyAbfahrt = $_POST['dbaf-date-toggler'] == "on";
+        // Checkboxen werden nicht übergeben, wenn sie auf false stehen
+        $onlyAbfahrt = isset($_POST['dbaf-date-toggler']);
 
         $request = new FahrplanRequest("POST", $abfahrtsbahnhof, $ankunftsbahnhof, $abfahrtsdatum, $ankunftsdatum, $onlyAbfahrt);
 

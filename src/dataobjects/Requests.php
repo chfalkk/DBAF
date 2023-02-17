@@ -3,14 +3,14 @@
 /**
  * Request-Objekt um Parameter zu bündeln und Arbeit mit Requests zu vereinfachen
  */
-abstract class RequestBase{
+abstract class RequestBase {
     protected string $Method;
 }
 
 /**
  * Request-Objekt um Parameter zu bündeln und Arbeit mit Requests zu vereinfachen
  */
-class FahrplanRequest extends RequestBase{
+class FahrplanRequest extends RequestBase {
     
     public string $abfahrtsbahnhof;
     public ?string $ankunftsbahnhof;
