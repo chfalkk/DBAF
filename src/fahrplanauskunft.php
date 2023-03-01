@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
+                <button type="submit" name="submit" class="btn btn-primary btn-dbaf" id="dbaf-fahrplan-suchen">
                     <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
                 </button>
 
