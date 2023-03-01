@@ -30,7 +30,7 @@ class HTMLExtension {
 
         $StartseitenURL = "index.php";
         $aktuelleURLArrayParts = explode("/",$_SERVER['SCRIPT_FILENAME']);
-        $aktuelleSeite = $aktuelleURLArrayParts[count($aktuelleURLArrayParts)-1];
+        $aktuelleSeite = ucfirst($aktuelleURLArrayParts[count($aktuelleURLArrayParts)-1]);
 
         $seite = explode(".",$aktuelleSeite)[0];
 
