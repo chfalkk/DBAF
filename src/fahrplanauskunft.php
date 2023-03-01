@@ -33,6 +33,11 @@
         ?>
 
         <div id="dbaf-main-div">
+
+
+            <?php 
+                HTMLExtension::BuildBreadcrumps();
+            ?>
             
             <?php HTMLExtension::BuildSectionHeading("FAHRPLANAUSKUNFT") ?>
 
@@ -50,7 +55,8 @@
             <div class="dbaf-form">
 
             <?php
-                $formHeading = sprintf("Bahnhof auswählen (%s verfügbar):", count($stations));
+                $pill = HTMLExtension::DisplayPill(count($stations) . " verfügbar");
+                $formHeading = "Bahnhof auswählen" . $pill;
                 HTMLExtension::BuildSubSectionHeading($formHeading);
             ?>
 

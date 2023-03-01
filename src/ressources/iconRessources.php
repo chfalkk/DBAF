@@ -10,6 +10,7 @@
         public static string $Suchen = "<i class=\"fa-solid fa-paper-plane\"></i>";
         public static string $GeoDot = "<i class=\"fa-solid fa-location-dot\"></i>";
         public static string $Kalender = "<i class=\"fa-solid fa-calendar-days\"></i>";
+        public static string $Home = "<i class=\"fa-solid fa-house\"></i>";
 
         public static string $Schliessen = "<i class=\"fa-solid fa-xmark\"></i>";
 
