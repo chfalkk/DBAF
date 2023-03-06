@@ -22,6 +22,7 @@
         <link rel="icon" href="img/favicon.ico">
 
         <script src="js/fahrplanInputHelper.js"></script>
+        <script src="js/fahrplanSearch.js"></script>
     </head>
     <body>
         <?php //IMPORTS
@@ -75,7 +76,26 @@
                             <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
                                 <?php
                                     foreach ($stations as $station) {
-                                        echo '<option value="'.$station.'">' . $station . '</option>';
+                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                            
+                    <div class="form-group col-md-6">
+                        <label for="dbaf-ankunfts-station-picker">Ankunftsbahnhof:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <?php echo IconRessources::$GeoDot ?>
+                                </span>
+                            </div>
+
+                            <select class="form-control" id="dbaf-ankunfts-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
+                                <?php
+                                    foreach ($stations as $station) {
+                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
                                     }
                                 ?>
                             </select>
@@ -117,11 +137,15 @@
                     </div>
                 </div>
 
-                <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
+                <button type="submit" name="submit" class="btn btn-primary btn-dbaf" id="dbaf-fahrplan-suchen">
                     <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
                 </button>
 
             </form>
+
+            <button class="btn btn-primary btn-dbaf" id="test">
+                    <?php echo IconRessources::$Suchen ?> Test
+            </button>
         </div>
             
 
