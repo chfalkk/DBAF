@@ -66,3 +66,27 @@
 .form-group > .dbaf-btn-div{
     margin-top: 5px;
 }
+
+.dbaf-breadcrump{
+    background-color: white;
+}
+
+.dbaf-breadcrump ol > li > a[href*=""]{
+    color: #D0572E !important;
+    font-size: small;
+}
+
+.dbaf-breadcrump ol > li > a[href*=""]:hover{
+    font-size: small;
+    color: #D0572E !important;
+    text-decoration: underline !important;
+}
+
+.dbaf-pill-badge{
+
+    margin-left: 0.25rem;
+    size: 75%;
+
+    background-color: #D0572E;
+    color: #fff;
+}
