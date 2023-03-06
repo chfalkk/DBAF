@@ -29,16 +29,31 @@
         public function GetAllStations() {
             // Abfrage mit allen Stationsdaten abholen
             $request = new DBAPI_StaDa();
-            $request->GetStations(new StationFilter());
+            $filter = new StationFilter();
+            $filter->offset = 5103;
+            $filter->limit = 1;
+            $request->GetStations($filter);
             $result = $request->GetJSONResult();
 
             $stations = [];
             $total = $result['total'];
 
+            var_dump($result['result'][0]);
+
+
             // stations mit allen Stations-Namen erstellen
-            for ($i = 0; $i < $total; $i++) {
-                array_push($stations, $result['result'][$i]['name']);
-            }
+            // for ($i = 5103; $i < $total; $i++) {
+            //     $station = [];
+            //     $station['name'] = $result['result'][$i]['name'];
+            //     $station['id'] = $result['result'][$i]['evaNumbers'][0]['number'];
+
+            //     // var_dump($result['result'][$i]['name']);
+            //     echo "$i ";
+            //     var_dump($result['result'][$i]['evaNumbers'][0]['number']);
+            //     echo "<br>";
+
+            //     array_push($stations, $station);
+            // }
 
             // alphabetisch sortieren
             array_multisort($stations);

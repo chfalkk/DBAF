@@ -76,7 +76,7 @@
                             <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
                                 <?php
                                     foreach ($stations as $station) {
-                                        echo '<option value="'.$station.'">' . $station . '</option>';
+                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
                                     }
                                 ?>
                             </select>
@@ -95,7 +95,7 @@
                             <select class="form-control" id="dbaf-ankunfts-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
                                 <?php
                                     foreach ($stations as $station) {
-                                        echo '<option value="'.$station.'">' . $station . '</option>';
+                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
                                     }
                                 ?>
                             </select>
