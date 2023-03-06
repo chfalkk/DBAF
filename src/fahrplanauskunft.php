@@ -123,21 +123,19 @@
 
                         <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
                     </div>
-                </div>
-                
-                <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="input-group md-3 dbaf-form-checkbox">
-                            <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler"/>
-                            <label class="form-check-label" for="dbaf-date-toggler">
-                                Nur nach dem Abfahrtsdatum suchen
-                            </label>
-                        </div>
+                   
+            </div>
+              
+            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="input-group md-3">
+                        <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
+                        <label class="form-check-label" for="dbaf-date-toggler"> Nur nach dem Abfahrtsdatum suchen</label>
                     </div>
                 </div>
 
-                <button type="submit" name="submit" class="btn btn-primary btn-dbaf" id="dbaf-fahrplan-suchen">
+                <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
                     <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
                 </button>
 
@@ -155,6 +153,11 @@
         </div>
 
         </div> <!-- #main-div -->
+
+        <!-- RESPONSE-SEKTION -->
+        <div>
+            <?php require "./partials/fahrplanResult.php"; ?> 
+        </div>
 
         <?php
             require_once 'partials/footer.php';

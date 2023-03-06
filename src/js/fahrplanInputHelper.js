@@ -75,6 +75,7 @@ const DateFormatter = {
         if(day.length === 1){
             day = `0${day}`;
         }
+        
         let time = today.toLocaleTimeString("de").slice(0, 5); // Sekunden entfernen, da nicht benötigt
 
         return `${year}-${month}-${day}T${time}`;
