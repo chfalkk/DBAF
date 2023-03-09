@@ -21,146 +21,27 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="icon" href="img/favicon.ico">
 
-        <script src="js/fahrplanInputHelper.js"></script>
-        <script src="js/fahrplanSearch.js"></script>
+        <!-- <script src="js/fahrplanInputHelper.js"></script>
+        <script src="js/fahrplanSearch.js"></script> -->
+        <script src="js/fahrplanSuche.js"></script>
+
+        <!-- DEVEXTREME LIBS -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/22.2.4/css/dx.light.css">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/22.2.4/js/dx.all.js"></script>
+
     </head>
-    <body>
-        <?php //IMPORTS
-            require_once "partials/header.php";
-            require_once "./ressources/iconRessources.php";
-            require_once "./extensions/htmlExtension.php";
-            require_once "./handler/db_fahrplan.php";
-            require_once "./dataobjects/Requests.php";
-        ?>
+    
+    <body class="dx-viewport">
 
-        <div id="dbaf-main-div">
+    <?php include "./partials/header.php" ?>
+    
+    <div id="dbaf-main-div" class="dbaf-form">
+        <div class="dbaf-form-item" id="dbaf-fahrplan-form"></div>
+    </div>
 
-
-            <?php 
-                HTMLExtension::BuildBreadcrumps();
-            ?>
-            
-            <?php HTMLExtension::BuildSectionHeading("FAHRPLANAUSKUNFT") ?>
-
-            <?php
-                // Instanzierung des Handlers
-                $handler = new MainHandler();
-                $stations = $handler->GetAllStations();
-            
-                // Display WARN-BOX wenn API nicht erreichbar
-                if(!DBAPI_Fahrplan::FahrplanIsAvailable()){
-                    HTMLExtension::BuildPanel(PanelType::Warn, "Die Fahrplan-API ist zur Zeit nicht erreichbar");
-                }
-            ?>
-
-            <div class="dbaf-form">
-
-            <?php
-                $pill = HTMLExtension::DisplayPill(count($stations) . " verfügbar");
-                $formHeading = "Bahnhof auswählen" . $pill;
-                HTMLExtension::BuildSubSectionHeading($formHeading);
-            ?>
-
-            <form action="" method="post">
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="dbaf-station-picker">Abfahrtsbahnhof:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <?php echo IconRessources::$GeoDot ?>
-                                </span>
-                            </div>
-
-                            <select class="form-control" id="dbaf-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
-                                <?php
-                                    foreach ($stations as $station) {
-                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                            
-                    <div class="form-group col-md-6">
-                        <label for="dbaf-ankunfts-station-picker">Ankunftsbahnhof:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <?php echo IconRessources::$GeoDot ?>
-                                </span>
-                            </div>
-
-                            <select class="form-control" id="dbaf-ankunfts-station-picker" name="stations" placeholder="Stationen" aria-label="Stationen" required>
-                                <?php
-                                    foreach ($stations as $station) {
-                                        echo '<option value="'.$station['id'].'">' . $station['name'] . '</option>';
-                                    }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-
-                    <!-- ABFAHRTS-DATUM -->
-                    <div class="form-group col-md-6">
-                        <label for="dbaf-abfahrts-datepicker">Abfahrtsdatum:</label>
-                        <div class="input-group md-3">
-                            <input type="datetime-local" class="form-control" id="dbaf-abfahrts-datepicker" name="dbaf-abfahrts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--" required/>
-                        </div>
-
-                        <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-abfahrt"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
-                    </div>
-
-                    <!-- ANKUNFTS-DATUM -->
-                    <div class="form-group col-md-6">
-                    <label for="dbaf-ankunfts-datepicker" id="dbaf-ankunfts-datepicker-label">Ankunftsdatum:</label>
-                        <div class="input-group md-3">
-                            <input type="datetime-local" class="form-control" id="dbaf-ankunfts-datepicker" name="dbaf-ankunfts-datepicker" placeholder="--Bitte wählen Sie ein Datum aus--"/>
-                        </div>
-
-                        <div class="btn btn-dbaf btn-sm dbaf-btn-div" id="dbaf-today-btn-ankunft"><?php echo IconRessources::$Kalender ?> Aktuelles Datum auswählen</div>
-                    </div>
-                   
-            </div>
-              
-            <!-- CHECKBOX UM ANKUNFT ZU TOGGLEN -->
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <div class="input-group md-3">
-                        <input type="checkbox" class="dbaf-check" id="dbaf-date-toggler" name="dbaf-date-toggler">
-                        <label class="form-check-label" for="dbaf-date-toggler"> Nur nach dem Abfahrtsdatum suchen</label>
-                    </div>
-                </div>
-
-                <button type="submit" name="submit" class="btn btn-primary btn-dbaf">
-                    <?php echo IconRessources::$Suchen ?> Fahrpläne suchen
-                </button>
-
-            </form>
-
-            <button class="btn btn-primary btn-dbaf" id="test">
-                    <?php echo IconRessources::$Suchen ?> Test
-            </button>
-        </div>
-            
-
-        <!-- RESPONSE-SEKTION -->
-        <div>
-            <?php require "./partials/fahrplanResult.php"; ?>
-        </div>
-
-        </div> <!-- #main-div -->
-
-        <!-- RESPONSE-SEKTION -->
-        <div>
-            <?php require "./partials/fahrplanResult.php"; ?> 
-        </div>
-
-        <?php
-            require_once 'partials/footer.php';
-        ?>
     </body>
+
 </html>

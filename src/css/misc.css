@@ -47,6 +47,10 @@
     margin-bottom: 2rem;
 }
 
+.dbaf-form-item{
+    margin: 1rem;
+}
+
 .dbaf-form-checkbox{
     font-size: medium;
 }
