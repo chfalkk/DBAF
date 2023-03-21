@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <title>DBAF - Fahrplanauskunft</title>
+        
+        <!-- jQuery library -->
+        <script type="text/javascript" src="dx_22.2.4/js/jquery.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="dx-theme" data-theme="generic.dark" href="dx_22.2.4/css/dx.dark.css" data-active="true">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
+        <!-- Dictionary files for German language -->
+        <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+        <!-- DBAF -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/dbaf.js"></script>
+    </head>
+
+    <body class="dx-viewport">
+        <h1>Fahrplanauskunft</h1>
+
+        <div id="selectStation"></div>
+        <div id="fahrplanForm">
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        let aStations = [];
+        let aStationNames = [];
+        let aStationIDs = [];
+
+        let eForm = $("#fahrplanForm").dxForm({
+            formData: {
+                stations: aStationNames,
+                date: new Date()
+            },
+            colCount: 1,
+            items: [{
+                itemType: "group",
+                caption: "Fahrplan-Suche",
+                colCount: 1,
+                items: [{
+                    dataField: "stations",
+                    isRequired: true,
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        items: aStationNames,
+                        searchEnabled: true,
+                        value: '',
+            paginate: true,
+            pageSize: 10
+                    },
+                    label: {
+                        text: "Startbahnhof"
+                    },
+                    validationRules: [{ type: "required" }]
+                }, {
+                    dataField: "date",
+                    editorType: "dxDateBox",
+                    label: {
+                        text: "Startbahnhof"
+                    },
+                    validationRules: [{ type: "required" }]
+                }, {
+                    itemType: "button",
+                    buttonOptions: {
+                        text: "Fahrplan laden",
+                        useSubmitBehavior: true
+                    }
+                }]
+            }]
+        }).dxForm("instance");
+        
+        let eStations = $("#stations").dxSelectBox({
+            displayExpr: "name",
+            dataSource: aStations,
+            value: "",
+            // onValueChanged: function(data) {
+            //     form.option("formData", data.value);
+            // }
+        }).dxSelectBox("instance");
+ 
+        // Wenn Daten submitted wurden
+        $("#form-container").on("submit", function(e) {
+            // Fahrplandaten abholen und anzeigen
+
+            e.preventDefault();
+        });
+        
+        aStations = GetAllStations(() => {
+            aStations.forEach(element => {
+                aStationNames.push(element.Name);
+            });
+
+            eForm.updateData({
+                stations: aStationNames
+            });
+        });
+    </script>
+</html>

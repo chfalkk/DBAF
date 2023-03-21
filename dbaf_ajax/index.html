@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <title>DBAF - HOME</title>
+        
+        <!-- jQuery library -->
+        <script type="text/javascript" src="dx_22.2.4/js/jquery.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="dx-theme" data-theme="generic.dark" href="dx_22.2.4/css/dx.dark.css" data-active="true">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
+        <!-- Dictionary files for German language -->
+        <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+        <!-- DBAF -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/dbaf.js"></script>
+    </head>
+
+    <body class="dx-viewport">
+        <div id="toolbar"></div>
+
+        <a href="stationdata.html">Stationen</a>
+        <a href="fahrplanauskunft.html">Fahrplanauskunft</a>
+
+        <script type="text/javascript">
+            $('#toolbar').dxToolbar({
+                items: [{
+                    location: 'before',
+                    icon: 'menu',
+                    template() {
+                        return $("<div class='dbaf-toolbar-label-main'><a href=\"index.html\">DBAF</a></div>");
+                    }
+                }, {
+                    location: 'before',
+                    locateInMenu: 'never',
+                    template() {
+                        return $("<div class='toolbar-label'>Stationsdaten</div>");
+                    }
+                }],
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <title>DBAF - Stationsdaten</title>
+        
+        <!-- jQuery library -->
+        <script type="text/javascript" src="dx_22.2.4/js/jquery.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="dx-theme" data-theme="generic.dark" href="dx_22.2.4/css/dx.dark.css" data-active="true">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
+        <!-- Dictionary files for German language -->
+        <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+        <!-- DBAF -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/dbaf.js"></script>
+    </head>
+
+    <body class="dx-viewport">
+        <h1>Stationsdaten</h1>
+        <div class="dbaf_grid" id="grid_stations"></div>
+
+        <script type="text/javascript">
+            // StationsDaten abhpolen
+            let aStations = GetAllStations(() => {
+                // Grid neuladen
+                eGridStations.refresh();
+            });
+
+            let eGridStations = $("#grid_stations").dxDataGrid({
+                dataSource: aStations,
+                keyExpr: "ID",
+                allowColumnResizing: true,
+                allowColumnReordering: true,
+                filterRow: { visible: true },
+                searchPanel: { visible: true },
+                groupPanel: { visible: true },
+                loadPanel: { enabled: true },
+                grouping: {
+                    contextMenuEnabled: true,
+                    expandMode: "rowClick"
+                },
+
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50],
+                    showNavigationButtons: true
+                },
+
+                toolbar: {
+                    items: [
+                        "groupPanel",
+                        {
+                            location: "after",
+                            widget: "dxButton",
+                            options: {
+                                text: "Alle einklappen",
+                                width: 136,
+                                onClick(e) {
+                                    const expanding = e.component.option("text") == "Alle ausklappen";
+                                    eGridStations.option("grouping.autoExpandAll", expanding);
+                                    e.component.option("text", expanding ? "Alle einklappen" : "Alle ausklappen");
+                                },
+                            },
+                        },
+                        {
+                            name: "addRowButton",
+                            showText: "always"
+                        },
+                        "exportButton",
+                        "columnChooserButton",
+                        "searchPanel"
+                    ]
+                },
+
+                columns: [
+                {
+                    dataField: "ID",
+                    visible: false
+                }, {
+                    dataField: "Name",
+                    sortOrder: "asc",
+                    summaryType: "count"
+                }, {
+                    dataField: "Bundesland",
+                    groupIndex: 0,
+                    sortOrder: "asc"
+                }, {
+                    dataField: "Stadt"
+                }, {
+                    dataField: "PLZ"
+                }, {
+                    dataField: "Straße"
+                }
+                ],
+                
+                summary: {
+                    totalItems: [{
+                        column: "Name",
+                        summaryType: "count"
+                    }],
+                    groupItems: [{
+                        summaryType: "count"
+                    }]
+                }
+            }).dxDataGrid("instance");
+        </script>
+    </body>
+</html>

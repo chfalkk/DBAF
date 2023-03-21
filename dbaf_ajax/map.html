@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <title>DBAF - HOME</title>
+        
+        <!-- jQuery library -->
+        <script type="text/javascript" src="dx_22.2.4/js/jquery.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="dx-theme" data-theme="generic.dark" href="dx_22.2.4/css/dx.dark.css" data-active="true">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
+        <script type="text/javascript" src="dx_22.2.4/js/vectormap-utils/dx.vectormaputils.js"></script>
+        <!-- Dictionary files for German language -->
+        <script src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+        <!-- DBAF -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/dbaf.js"></script>
+    </head>
+
+    <body class="dx-viewport">
+        <h1>Karte</h1>
+        <div id="vectorMap"></div>
+
+        <script type="text/javascript">
+
+
+            // GEO-Daten: https://geodata.lib.utexas.edu/catalog/stanford-hn022bw9567
+            DevExpress.viz.vectormaputils.parse('/geo/DEU_adm0', { precision: 2 }, function (data) {
+                let map = $('#vectorMap').dxVectorMap({
+                    layers: [{
+                        type: 'area',
+                        hoveredBorderColor: 'none',
+                        dataSource: data
+                    }]
+                }).dxVectorMap("instance");
+
+                let qry = new DBAF_Request("https://v5.db.transport.rest/stations", true, (StatusCode, Data) => {
+                    if (StatusCode == 200) {
+                        for (const [key, value] of Object.entries(Data)) {
+                            AddStationData(value);
+                        }
+                    } 
+                });
+
+                map.viewport([5, 55, 16, 47]); // minLongitude, maxLatitude, maxLongitude, minLatitude
+            });
+        </script>
+    </body>
+</html>
