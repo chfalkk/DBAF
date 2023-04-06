@@ -1,7 +1,24 @@
-#toolbar {
+.dbaf-toolbar {
     border-bottom: 1px solid #FFF;
+    padding: 20px;
 }
 
-.dbaf_grid {
+.dbaf-toolbar a {
+    font-size: 24px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.dbaf-toolbar div {
+    margin: 0 10px 10px 0;
+}
+
+.dbaf-toolbar-label-main a {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.dbaf-grid {
     height: 600px;
 }
+

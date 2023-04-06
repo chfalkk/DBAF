@@ -17,98 +17,105 @@
         <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
         <!-- DBAF -->
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <script type="text/javascript" type="text/javascript" src="js/request.js"></script>
         <script type="text/javascript" src="js/dbaf.js"></script>
+        <script type="text/javascript" src="js/request.js"></script>
     </head>
 
     <body class="dx-viewport">
+        <div class="dbaf-toolbar" id="toolbar"></div>
+
         <h1>Stationsdaten</h1>
-        <div class="dbaf_grid" id="grid_stations"></div>
+        <div class="dbaf-grid" id="grid_stations"></div>
+    </body>
 
-        <script type="text/javascript">
-            // StationsDaten abhpolen
-            let aStations = GetAllStations(() => {
-                // Grid neuladen
-                eGridStations.refresh();
-            });
+    <script type="text/javascript">
+        // StationsDaten abhpolen
+        let aStations = GetAllStations(() => {
+            // Grid neuladen
+            eGridStations.refresh();
+        });
 
-            let eGridStations = $("#grid_stations").dxDataGrid({
-                dataSource: aStations,
-                keyExpr: "ID",
-                allowColumnResizing: true,
-                allowColumnReordering: true,
-                filterRow: { visible: true },
-                searchPanel: { visible: true },
-                groupPanel: { visible: true },
-                loadPanel: { enabled: true },
-                grouping: {
-                    contextMenuEnabled: true,
-                    expandMode: "rowClick"
-                },
+        let eGridStations = $("#grid_stations").dxDataGrid({
+            dataSource: aStations,
+            keyExpr: "ID",
+            allowColumnResizing: true,
+            allowColumnReordering: true,
+            filterRow: { visible: true },
+            searchPanel: { visible: true },
+            groupPanel: { visible: true },
+            loadPanel: { enabled: true },
+            grouping: {
+                contextMenuEnabled: true,
+                expandMode: "rowClick"
+            },
 
-                pager: {
-                    showPageSizeSelector: true,
-                    allowedPageSizes: [10, 20, 50],
-                    showNavigationButtons: true
-                },
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [10, 20, 50],
+                showNavigationButtons: true
+            },
 
-                toolbar: {
-                    items: [
-                        "groupPanel",
-                        {
-                            location: "after",
-                            widget: "dxButton",
-                            options: {
-                                text: "Alle einklappen",
-                                width: 136,
-                                onClick(e) {
-                                    const expanding = e.component.option("text") == "Alle ausklappen";
-                                    eGridStations.option("grouping.autoExpandAll", expanding);
-                                    e.component.option("text", expanding ? "Alle einklappen" : "Alle ausklappen");
-                                },
+            toolbar: {
+                items: [
+                    "groupPanel",
+                    {
+                        location: "after",
+                        widget: "dxButton",
+                        options: {
+                            text: "Alle einklappen",
+                            width: 136,
+                            onClick(e) {
+                                const expanding = e.component.option("text") == "Alle ausklappen";
+                                eGridStations.option("grouping.autoExpandAll", expanding);
+                                e.component.option("text", expanding ? "Alle einklappen" : "Alle ausklappen");
                             },
                         },
-                        {
-                            name: "addRowButton",
-                            showText: "always"
-                        },
-                        "exportButton",
-                        "columnChooserButton",
-                        "searchPanel"
-                    ]
-                },
+                    },
+                    {
+                        name: "addRowButton",
+                        showText: "always"
+                    },
+                    "exportButton",
+                    "columnChooserButton",
+                    "searchPanel"
+                ]
+            },
 
-                columns: [
-                {
-                    dataField: "ID",
-                    visible: false
-                }, {
-                    dataField: "Name",
-                    sortOrder: "asc",
+            columns: [{
+                dataField: "ID",
+                visible: false
+            }, {
+                dataField: "name",
+                sortOrder: "asc",
+                caption: "Bezeichnung",
+                summaryType: "count"
+            }, {
+                dataField: "federalState",
+                caption: "Bundesland",
+                groupIndex: 0,
+                sortOrder: "asc"
+            }, {
+                dataField: "city",
+                caption: "Stadt"
+            }, {
+                dataField: "zipcode",
+                caption: "Postleitzahl"
+            }, {
+                dataField: "street",
+                caption: "Straße"
+            }],
+            
+            summary: {
+                totalItems: [{
+                    column: "Name",
                     summaryType: "count"
-                }, {
-                    dataField: "Bundesland",
-                    groupIndex: 0,
-                    sortOrder: "asc"
-                }, {
-                    dataField: "Stadt"
-                }, {
-                    dataField: "PLZ"
-                }, {
-                    dataField: "Straße"
-                }
-                ],
-                
-                summary: {
-                    totalItems: [{
-                        column: "Name",
-                        summaryType: "count"
-                    }],
-                    groupItems: [{
-                        summaryType: "count"
-                    }]
-                }
-            }).dxDataGrid("instance");
-        </script>
-    </body>
+                }],
+                groupItems: [{
+                    summaryType: "count"
+                }]
+            }
+        }).dxDataGrid("instance");
+    </script>
+    
+    <script type="text/javascript" src="js/toolbar.js"></script>
 </html>

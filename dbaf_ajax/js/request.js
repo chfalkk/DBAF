@@ -40,11 +40,11 @@ function GetAllStations(OnSuccess = null) {
                 if (!aIDs.includes(value.id)) {
                     aStations.push({
                         "ID": value.id,
-                        "Name": value.name,
-                        "Bundesland": value.federalState,
-                        "Stadt": value.address.city,
-                        "PLZ": value.address.zipcode,
-                        "Straße": value.address.street
+                        "name": value.name,
+                        "federalState": value.federalState,
+                        "city": value.address.city,
+                        "zipcode": value.address.zipcode,
+                        "street": value.address.street
                     });
                     aIDs.push(value.id);
                 }
@@ -56,4 +56,68 @@ function GetAllStations(OnSuccess = null) {
     });
 
     return aStations;
+}
+
+/**
+ * Alle Abfahrten von einem Bahnhof an einem Datum abholen
+ */
+function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
+    let aDepartures = [];
+
+    TargetDate.setHours(0, 0, 0);
+    TargetDate.setMilliseconds(0);
+
+    // alle Daten laden
+    let qry = new DBAF_Request("https://v5.db.transport.rest/stops/" + StationID + "/departures?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
+        let i = 0;
+
+        for (item of Data) {
+            aDepartures.push({
+                "ID": "" + i,
+                "plannedWhen": item.plannedWhen,
+                "when": item.when,
+                "direction": item.direction,
+                "plannedPlatform": item.plannedPlatform,
+                "elevator": "TODO"
+            });
+            i++;
+        }  
+
+        // OnSuccess aufrufen
+        OnSuccess();
+    });
+
+    return aDepartures;
+}
+
+/**
+ * Alle Ankunften zu einem Bahnhof an einem Datum abholen
+ */
+function GetAllArrivals(StationID, TargetDate, OnSuccess = null) {
+    let aArrivals = [];
+
+    TargetDate.setHours(0, 0, 0);
+    TargetDate.setMilliseconds(0);
+
+    // alle Daten laden
+    let qry = new DBAF_Request("https://v5.db.transport.rest/stops/" + StationID + "/arrivals?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
+        let i = 0;
+
+        for (item of Data) {
+            aArrivals.push({
+                "ID": "" + i,
+                "plannedWhen": item.plannedWhen,
+                "when": item.when,
+                "provenance": item.provenance,
+                "plannedPlatform": item.plannedPlatform,
+                "elevator": "TODO"
+            });
+            i++;
+        }  
+
+        // OnSuccess aufrufen
+        OnSuccess();
+    });
+
+    return aArrivals;
 }

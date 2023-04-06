@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+        <title>DBAF - Fahrplanauskunft</title>
+        
+        <!-- jQuery library -->
+        <script type="text/javascript" src="dx_22.2.4/js/jquery.min.js"></script>
+        <!-- DevExtreme theme -->
+        <link rel="dx-theme" data-theme="generic.dark" href="dx_22.2.4/css/dx.dark.css" data-active="true">
+        <!-- DevExtreme library -->
+        <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
+        <!-- Dictionary files for German language -->
+        <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+        <!-- DBAF -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script type="text/javascript" src="js/dbaf.js"></script>
+        <script type="text/javascript" src="js/request.js"></script>
+    </head>
+
+    <body class="dx-viewport">
+        <div class="dbaf-toolbar" id="toolbar"></div>
+
+        <h1>Fahrplanauskunft</h1>
+        <form id="form-container">
+            <div id="fahrplanForm"></div>
+        </form>
+
+        <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
+        <div id="results" style="display: none;">
+            <hr>
+            <h3>Abfahrten für <span id="departures_name"></span></h3>
+            <div class="dbaf-grid" id="departuresTable"></div>
+            <h3>Ankunften <span id="arrivals_name"></span></h3>
+            <div class="dbaf-grid" id="arrivalsTable"></div>
+        </div>
+    </body>
+
+    <script type="text/javascript">
+        // Stationen abholen
+        let aStationNames = [];
+        let aStations = GetAllStations(() => {
+            aStations.forEach(element => {
+                aStationNames.push(element.name);
+            });
+        });
+
+        // Array für Ankunfts- und Abfahrtszeiten
+        let aArrivals = [];
+        let aDepartures = [];
+
+        // Eingabeformular
+        let eForm = $("#fahrplanForm").dxForm({
+            formData: {
+                date: new Date()
+            },
+            colCount: 1,
+            items: [{
+                itemType: "group",
+                caption: "Fahrplan-Suche",
+                colCount: 1,
+                items: [{
+                    dataField: "stations",
+                    isRequired: true,
+                    editorType: "dxSelectBox",
+                    editorOptions: {
+                        dataSource: new DevExpress.data.DataSource({
+                            store: aStationNames,
+                            paginate: true,
+                            pageSize: 10
+                        }),
+                        searchEnabled: true
+                    },
+                    label: {
+                        text: "Startbahnhof"
+                    },
+                    validationRules: [{ type: "required" }]
+                }, {
+                    dataField: "date",
+                    editorType: "dxDateBox",
+                    label: {
+                        text: "Datum"
+                    },
+                    validationRules: [{ type: "required" }]
+                }, {
+                    itemType: "button",
+                    buttonOptions: {
+                        text: "Fahrplan laden",
+                        useSubmitBehavior: true
+                    }
+                }]
+            }]
+        }).dxForm("instance");
+ 
+        // Wenn Daten submitted wurden
+        $("#form-container").on("submit", function(e) {
+            // Fahrplandaten abholen
+            let sStationName = eForm.getEditor("stations").option("value");
+            let dTargetDate = eForm.getEditor("date").option("value");
+            
+            let aStationData = aStations[aStationNames.indexOf(sStationName)];
+
+            // Daten anzeigen
+            $("#departures_name").text(sStationName);
+            $("#arrivals_name").text(sStationName);
+            $("#results").show();
+
+            // Daten für Abfahrten abholen
+            aDepartures = GetAllDepartures(aStationData.ID, dTargetDate, () => {
+                // Daten aktualisieren
+                eGridDepartures.option("dataSource", aDepartures);
+            });
+
+            // Daten für Ankünfte abholen
+            aArrivals = GetAllArrivals(aStationData.ID, dTargetDate, () => {
+                // Daten aktualisieren
+                eGridArrivals.option("dataSource", aArrivals);
+            });
+
+            e.preventDefault();
+        });
+
+        let eGridDepartures = $("#departuresTable").dxDataGrid({
+            dataSource: aDepartures,
+            keyExpr: "ID",
+            allowColumnResizing: true,
+            allowColumnReordering: true,
+            filterRow: { visible: true },
+            searchPanel: { visible: true },
+            loadPanel: { enabled: true },
+
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [10, 20, 50],
+                showNavigationButtons: true
+            },
+
+            toolbar: {
+                items: [
+                    "searchPanel"
+                ]
+            },
+
+            columns: [{
+                dataField: "ID",
+                visible: false
+            }, {
+                dataField: "plannedWhen",
+                sortOrder: "asc",
+                dataType: "datetime",
+                caption: "Geplante Abfahrt (Prognose)"
+            }, {
+                dataField: "when",
+                dataType: "datetime",
+                caption: "Genaue Abfahrt"
+            }, {
+                dataField: "direction",
+                caption: "Richtung"
+            }, {
+                dataField: "plannedPlatform",
+                caption: "Plattform"
+            }, {
+                dataField: "elevator",
+                caption: "Fahrstuhl zum Gleis"
+            }],
+            
+            summary: {
+                totalItems: [{
+                    column: "plannedWhen",
+                    summaryType: "count"
+                }]
+            }
+        }).dxDataGrid("instance");
+
+        let eGridArrivals = $("#arrivalsTable").dxDataGrid({
+            dataSource: aArrivals,
+            keyExpr: "ID",
+            allowColumnResizing: true,
+            allowColumnReordering: true,
+            filterRow: { visible: true },
+            searchPanel: { visible: true },
+            loadPanel: { enabled: true },
+
+            pager: {
+                showPageSizeSelector: true,
+                allowedPageSizes: [10, 20, 50],
+                showNavigationButtons: true
+            },
+
+            toolbar: {
+                items: [
+                    "searchPanel"
+                ]
+            },
+
+            columns: [{
+                dataField: "ID",
+                visible: false
+            }, {
+                dataField: "plannedWhen",
+                sortOrder: "asc",
+                dataType: "datetime",
+                caption: "Geplante Ankunft (Prognose)"
+            }, {
+                dataField: "when",
+                dataType: "datetime",
+                caption: "Genaue Ankunft"
+            }, {
+                dataField: "provenance",
+                caption: "Herkunft"
+            }, {
+                dataField: "plannedPlatform",
+                caption: "Plattform"
+            }, {
+                dataField: "elevator",
+                caption: "Fahrstuhl zum Gleis"
+            }],
+            
+            summary: {
+                totalItems: [{
+                    column: "plannedWhen",
+                    summaryType: "count"
+                }]
+            }
+        }).dxDataGrid("instance");
+    </script>
+    
+    <script type="text/javascript" src="js/toolbar.js"></script>
+</html>
