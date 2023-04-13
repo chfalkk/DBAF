@@ -18,7 +18,22 @@
     font-weight: bold;
 }
 
+.dbaf-group-main {
+    margin: 20px;
+}
+
 .dbaf-grid {
     height: 600px;
 }
 
+#results {
+    display: none;
+}
+
+.dbaf-text-bold {
+    font-weight: bold;
+}
+
+.dbaf-text-italic {
+    font-style: italic;
+}

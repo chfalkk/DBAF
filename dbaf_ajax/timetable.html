@@ -24,18 +24,20 @@
     <body class="dx-viewport">
         <div class="dbaf-toolbar" id="toolbar"></div>
 
-        <h1>Fahrplanauskunft</h1>
-        <form id="form-container">
-            <div id="fahrplanForm"></div>
-        </form>
+        <div class="dbaf-group-main">
+            <h1>Fahrplanauskunft</h1>
+            <form id="form-container">
+                <div id="fahrplanForm"></div>
+            </form>
 
-        <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
-        <div id="results" style="display: none;">
-            <hr>
-            <h3>Abfahrten für <span id="departures_name"></span></h3>
-            <div class="dbaf-grid" id="departuresTable"></div>
-            <h3>Ankunften <span id="arrivals_name"></span></h3>
-            <div class="dbaf-grid" id="arrivalsTable"></div>
+            <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
+            <div id="results">
+                <hr>
+                <h3>Abfahrten ab <span id="departures_name"></span></h3>
+                <div class="dbaf-grid" id="departuresTable"></div>
+                <h3>Ankunften in <span id="arrivals_name"></span></h3>
+                <div class="dbaf-grid" id="arrivalsTable"></div>
+            </div>
         </div>
     </body>
 

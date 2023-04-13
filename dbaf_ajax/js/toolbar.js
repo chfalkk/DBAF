@@ -22,6 +22,12 @@ $('#toolbar').dxToolbar({
         location: 'before',
         locateInMenu: 'never',
         template() {
+            return $("<div class='toolbar-label'><a href='routeplanning.html'>Routenplaner</a></div>");
+        }
+    }, {
+        location: 'before',
+        locateInMenu: 'never',
+        template() {
             return $("<div class='toolbar-label'><a href='map.html'>Karte</a></div>");
         }
     }, {
