@@ -28,29 +28,51 @@
         <div class="dbaf-group-main">
             <h1>Karte</h1>
             <div id="vectorMap"></div>
+            <div class="dbaf-map" id="map"></div>
         </div>
     </body>
 
     <script type="text/javascript">
-        // GEO-Daten: https://geodata.lib.utexas.edu/catalog/stanford-hn022bw9567
-        DevExpress.viz.vectormaputils.parse('/geo/DEU_adm0', { precision: 2 }, function (data) {
-            let map = $('#vectorMap').dxVectorMap({
-                layers: [{
-                    type: 'area',
-                    hoveredBorderColor: 'none',
-                    dataSource: data
-                }]
-            }).dxVectorMap("instance");
+        // TODO:
+        // MapTypes anzeigen
+        // Marker anzeigen
+        // Resize-Methode verbessern (ohne Konstante -30)
+        // + Anwenden auf das Grid bei den Stations-Daten
 
-            let qry = new DBAF_Request("https://v5.db.transport.rest/stations", true, (StatusCode, Data) => {
-                if (StatusCode == 200) {
-                    for (const [key, value] of Object.entries(Data)) {
-                        AddStationData(value);
-                    }
-                } 
-            });
+        const mapTypes = [{
+            key: 'roadmap',
+            name: 'Road Map',
+        }, {
+            key: 'satellite',
+            name: 'Satellite (Photographic) Map',
+        }, {
+            key: 'hybrid',
+            name: 'Hybrid Map',
+        }];
 
-            map.viewport([5, 55, 16, 47]); // minLongitude, maxLatitude, maxLongitude, minLatitude
+        const map = $('#map').dxMap({
+            center: 'Quedlinburg, Germany',
+            height: 100,
+            zoom: 10,
+            width: '100%',
+            provider: 'bing',
+            type: mapTypes[0].key,
+        }).dxMap('instance');
+
+        setTimeout(() => {
+            ResizeMap();
+        }, 50);
+
+        function ResizeMap() {
+            let iBodyHeight = Math.floor($("body").outerHeight(true));
+            let iDocHeight = Math.floor($(window).outerHeight(true)) - 30;
+            let iMapHeight = Math.floor($("#map").height());
+            let iTotalMapAvailableHeight = iDocHeight - (iBodyHeight - iMapHeight);
+            $("#map").height(iTotalMapAvailableHeight);
+        }
+
+        addEventListener("resize", (event) => {
+            ResizeMap();
         });
     </script>
     

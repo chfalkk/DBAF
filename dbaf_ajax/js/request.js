@@ -3,6 +3,19 @@ class DBAF_Request {
     Data;
 
     constructor(URL, Async, OnSuccess) {
+        // maximale Abfrage-Anzahl pro Minute prüfen
+        if (LIMIT_REQUEST_COUNT) {
+            if (CURR_REQUEST_COUNT > MAX_REQUEST_COUNT) {
+                // maximale Anfragen überschritten
+                $(() => {
+                    DevExpress.ui.notify("Es können keine weiteren Anfragen verarbeitet werden!", "error", 400);
+                });
+
+                return;
+            }
+        }
+
+        CURR_REQUEST_COUNT++;
         $.ajax({
             type: "GET",
             url: URL,

@@ -37,3 +37,7 @@
 .dbaf-text-italic {
     font-style: italic;
 }
+
+#map {
+    width: 100%;
+}
