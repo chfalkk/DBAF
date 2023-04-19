@@ -25,13 +25,22 @@
         <div class="dbaf-toolbar" id="toolbar"></div>
 
         <div class="dbaf-group-main">
-            <h1>Fahrplanauskunft</h1>
-            <form id="form-container">
+            <!-- Übersicht der Seite -->
+            <div class="dbaf-group">
+                <h1>Fahrplanauskunft</h1>
+                <p>
+                    Mit der Eingabe eines Bahnhofes und dem Datum können alle Abfahrten und Ankünfte mit allen Daten an diesem Bahnhof angezeigt werden.
+                </p>
+                <hr>
+            </div>
+
+            <!-- Eingabeformular -->
+            <form class="dbaf-group" id="form-container">
                 <div id="fahrplanForm"></div>
             </form>
 
             <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
-            <div id="results">
+            <div class="dbaf-group" id="results">
                 <hr>
                 <h3>Abfahrten ab <span id="departures_name"></span></h3>
                 <div class="dbaf-grid" id="departuresTable"></div>
@@ -41,13 +50,29 @@
         </div>
     </body>
 
+    <!-- DBAF-TODO: Auskommentierung ab hier -->
+
     <script type="text/javascript">
         // Stationen abholen
         let aStationNames = [];
-        let aStations = GetAllStations(() => {
+        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
             aStations.forEach(element => {
                 aStationNames.push(element.name);
             });
+
+            // URL auslesen nach targetStation
+            const sURL = window.location.search;
+            const parURL = new URLSearchParams(sURL);
+            const sTargetStation = parURL.get('targetStation');
+
+            if (sTargetStation != null) {
+                // TargetStation als Value setzen
+                if (aStationNames.includes(sTargetStation)) {
+                    eForm.getEditor("stations").option("value", sTargetStation);
+                } else {
+                    DevExpress.ui.notify("Zielbahnhof \"" + sTargetStation + "\" existiert nicht.", "warning", 1000);
+                }
+            }
         });
 
         // Array für Ankunfts- und Abfahrtszeiten
@@ -230,5 +255,6 @@
         }).dxDataGrid("instance");
     </script>
     
+    <!-- Toolbareinstellungen laden -->
     <script type="text/javascript" src="js/toolbar.js"></script>
 </html>

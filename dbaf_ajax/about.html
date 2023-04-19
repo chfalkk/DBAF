@@ -18,15 +18,46 @@
         <!-- DBAF -->
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/dbaf.js"></script>
+        <script type="text/javascript" src="js/request.js"></script>
     </head>
 
     <body class="dx-viewport">
         <div class="dbaf-toolbar" id="toolbar"></div>
 
         <div class="dbaf-group-main">
-            <h2>About.html ist todo :D</h2>
+            <h1>Über uns</h1>
+
+            <div class="dbaf-group">
+                <h3>Das Projekt</h3>
+                <p>
+                    Das <span class="dbaf-text-bold">Deutsche Bahn Anwendungs Frontend</span> (kurz: D.B.A.F.) ist ein Schulprojekt zur Auswertung von API-Daten der Deutschen Bahn.<br>
+                    Über diese API wird es von uns ermöglicht, Stationen einzusehen, Abfahrten und Ankunften eines Bahnhofes abzurufen, Routen zu planen und alle Bahnhöfe übersichtlich auf einer Karte zu betrachten. 
+                </p>
+            </div>
+            
+            <div class="dbaf-group">
+                <h3>Beteiligung am Projekt</h3>
+                <ul>
+                    <li><span class="dbaf-text-bold">Oliver Hollmann</span> - Planung, Umsetzung und Dokumentation</li>
+                    <li><span class="dbaf-text-bold">Christopher Falk</span> - Planung und Umsetzung</li>
+                    <li><span class="dbaf-text-bold">Erik Ament</span> - Planung und Dokumentation</li>
+                </ul>
+            </div>
+
+            <div class="dbaf-group">
+                <h3>Unterstützung</h3>
+                <p>
+                    Dieses Projekt wird unterstützt durch die <a id="api-url" href="#" target="_blank">Deutsche Bahn Rest-API</a> und von <a href="https://js.devexpress.com/" target="_blank">DevExtreme JavaScript-Komponenten</a>.
+                </p>
+            </div>
         </div>
     </body>
 
+    <script type="text/javascript">
+        // Default-URL einfügen
+        $("#api-url").attr('href', API_URL);
+    </script>
+
+    <!-- Toolbareinstellungen laden -->
     <script type="text/javascript" src="js/toolbar.js"></script>
 </html>

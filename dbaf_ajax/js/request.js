@@ -1,3 +1,16 @@
+/*
+    request.js
+    ----------
+    Beinhaltet alle Funktionen zur Ausführung von Anfragen an die API.
+*/
+
+/**
+ * URL für die API
+ */
+const API_URL = "https://v6.db.transport.rest";
+
+// DBAF-TODO: Auskommentierung ab hier
+
 class DBAF_Request {
     StatusCode;
     Data;
@@ -31,7 +44,7 @@ class DBAF_Request {
                 } else {
                     // Erfolg
                     this.Data = JSON.parse(response.responseText);
-                    
+
                     if (OnSuccess != null) {
                         OnSuccess(this.StatusCode, this.Data);
                     }
@@ -42,35 +55,81 @@ class DBAF_Request {
 }
 
 /**
- * Alle Bahnhöfe abholen
+ * Konstante für alle Bundesländer
  */
-function GetAllStations(OnSuccess = null) {
+const FEDERALSTATE_ANY = "Alle";
+
+/**
+ * Array mit allen Bundesländern
+ */
+const FEDERALSTATES = [
+    "Baden-Württemberg",
+    "Bayern",
+    "Berlin",
+    "Brandenburg",
+    "Bremen",
+    "Hamburg",
+    "Hessen",
+    "Mecklenburg-Vorpommern",
+    "Niedersachsen",
+    "Nordrhein-Westfalen",
+    "Rheinland-Pfalz",
+    "Saarland",
+    "Sachsen",
+    "Sachsen-Anhalt",
+    "Schleswig-Holstein",
+    "Thüringen"
+];
+
+/**
+ * Array mit allen Bundenländern, einschließlich dem String "Alle"
+ */
+const EXT_FEDERALSTATES = [FEDERALSTATE_ANY].concat(FEDERALSTATES);
+
+/**
+ * Bahnhöfe in Abhängigkeit des Bundeslandes abholen
+ */
+function GetAllStations(FederalState, OnSuccess = null) {
     let aStations = [];
     let aIDs = [];
 
     // alle Daten laden
-    let qry = new DBAF_Request("https://v5.db.transport.rest/stations", true, (StatusCode, Data) => {
-        if (StatusCode == 200) {
-            for (const [key, value] of Object.entries(Data)) {
-                // Daten zum Ergebnis hinzufügen (ohne doppelte IDs)
-                if (!aIDs.includes(value.id)) {
-                    aStations.push({
-                        "ID": value.id,
-                        "name": value.name,
-                        "federalState": value.federalState,
-                        "city": value.address.city,
-                        "zipcode": value.address.zipcode,
-                        "street": value.address.street
-                    });
-                    aIDs.push(value.id);
+    let qry = new DBAF_Request(API_URL + "/stations", true, (StatusCode, Data) => {
+        let bFilter = FederalState != FEDERALSTATE_ANY;
+    
+        for (const [key, value] of Object.entries(Data)) {
+            // Daten zum Ergebnis hinzufügen (ohne doppelte IDs)
+            if (!aIDs.includes(value.id)) {
+                if (bFilter && value.federalState != FederalState) {
+                    continue;
                 }
-            }
 
-            // OnSuccess ausführen
-            if (OnSuccess != null) {
-                OnSuccess();
+                let iLongitude = null;
+                let iLatitude = null;
+
+                if (value.location != null) {
+                    iLongitude = value.location.longitude;
+                    iLatitude = value.location.latitude;
+                }
+
+                aStations.push({
+                    "ID": value.id,
+                    "name": value.name,
+                    "federalState": value.federalState,
+                    "city": value.address.city,
+                    "zipcode": value.address.zipcode,
+                    "street": value.address.street,
+                    "locLatitude": iLongitude,
+                    "locLongitude": iLatitude
+                });
+                aIDs.push(value.id);
             }
-        } 
+        }
+
+        // OnSuccess ausführen
+        if (OnSuccess != null) {
+            OnSuccess();
+        }
     });
 
     return aStations;
@@ -86,17 +145,17 @@ function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
     TargetDate.setMilliseconds(0);
 
     // alle Daten laden
-    let qry = new DBAF_Request("https://v5.db.transport.rest/stops/" + StationID + "/departures?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
+    let qry = new DBAF_Request(API_URL + "/stops/" + StationID + "/departures?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
         let i = 0;
 
-        for (item of Data) {
+        for (item of Data.departures) {
             aDepartures.push({
                 "ID": "" + i,
                 "plannedWhen": item.plannedWhen,
                 "when": item.when,
                 "direction": item.direction,
                 "plannedPlatform": item.plannedPlatform,
-                "elevator": "TODO"
+                "elevator": "TODO" // DBAF-TODO: Fahrstuhlanzeige
             });
             i++;
         }  
@@ -120,17 +179,17 @@ function GetAllArrivals(StationID, TargetDate, OnSuccess = null) {
     TargetDate.setMilliseconds(0);
 
     // alle Daten laden
-    let qry = new DBAF_Request("https://v5.db.transport.rest/stops/" + StationID + "/arrivals?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
+    let qry = new DBAF_Request(API_URL + "/stops/" + StationID + "/arrivals?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
         let i = 0;
 
-        for (item of Data) {
+        for (item of Data.arrivals) {
             aArrivals.push({
                 "ID": "" + i,
                 "plannedWhen": item.plannedWhen,
                 "when": item.when,
                 "provenance": item.provenance,
                 "plannedPlatform": item.plannedPlatform,
-                "elevator": "TODO"
+                "elevator": "TODO"// DBAF-TODO: Fahrstuhlanzeige
             });
             i++;
         }  
@@ -195,7 +254,7 @@ function GetAllJourneys(StartStationID, EndStationID, StartDateTime, OnSuccess =
     let aJourneys = [];
 
     // alle Daten laden
-    let qry = new DBAF_Request("https://v6.db.transport.rest/journeys?from=" + StartStationID + "&to=" + EndStationID + "&departure=" + StartDateTime.toISOString() + "&transfers=1000&results=1&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {
+    let qry = new DBAF_Request(API_URL + "/journeys?from=" + StartStationID + "&to=" + EndStationID + "&departure=" + StartDateTime.toISOString() + "&transfers=1000&results=1&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {
         let aJourney = Data.journeys[0];
 
         let i = 0;

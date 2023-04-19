@@ -20,61 +20,107 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/dbaf.js"></script>
         <script type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/ui.js"></script>
     </head>
 
     <body class="dx-viewport">
         <div class="dbaf-toolbar" id="toolbar"></div>
 
         <div class="dbaf-group-main">
-            <h1>Karte</h1>
-            <div id="vectorMap"></div>
-            <div class="dbaf-map" id="map"></div>
+            <!-- Übersicht der Seite -->
+            <div class="dbaf-group">
+                <h1>Karte</h1>
+                <p>
+                    Hier können alle Bahnhöfe gefiltert nach Bundesland in einer Karte übersichtlich eingesehen werden.<br>
+                    Mit einem Klick auf eine Markierung lassen sich weitere Daten zu der ausgewählten Station einsehen.
+                </p>
+                <hr>
+            </div>
+
+            <!-- Eingabe des Bundeslandes -->
+            <div class="dbaf-group">
+                <div class="dbaf-drop-down" id="drop_down_federalstates"></div>
+            </div>
+            
+            <!-- Datenübersicht (Karte) -->
+            <div class="dbaf-group">
+                <div class="dbaf-map" id="map"></div>
+            </div>
         </div>
     </body>
 
+    <!-- DBAF-TODO: Auskommentierung ab hier -->
+
     <script type="text/javascript">
-        // TODO:
-        // MapTypes anzeigen
-        // Marker anzeigen
-        // Resize-Methode verbessern (ohne Konstante -30)
-        // + Anwenden auf das Grid bei den Stations-Daten
+        let aMarkersData = [];
+        const sDefaultFederalState = "Sachsen-Anhalt";
+        LoadStations(sDefaultFederalState);
+        StickToClient("#map");
 
-        const mapTypes = [{
-            key: 'roadmap',
-            name: 'Road Map',
-        }, {
-            key: 'satellite',
-            name: 'Satellite (Photographic) Map',
-        }, {
-            key: 'hybrid',
-            name: 'Hybrid Map',
-        }];
+        function LoadStations(FederalState) {
+            aMarkersData = [];
 
-        const map = $('#map').dxMap({
-            center: 'Quedlinburg, Germany',
-            height: 100,
-            zoom: 10,
-            width: '100%',
-            provider: 'bing',
-            type: mapTypes[0].key,
-        }).dxMap('instance');
+            let aStations = GetAllStations(FederalState, () => {
+                for(let i = 0; i < aStations.length; i++) {
+                    let aData = aStations[i];
 
-        setTimeout(() => {
-            ResizeMap();
-        }, 50);
-
-        function ResizeMap() {
-            let iBodyHeight = Math.floor($("body").outerHeight(true));
-            let iDocHeight = Math.floor($(window).outerHeight(true)) - 30;
-            let iMapHeight = Math.floor($("#map").height());
-            let iTotalMapAvailableHeight = iDocHeight - (iBodyHeight - iMapHeight);
-            $("#map").height(iTotalMapAvailableHeight);
+                    if (aData.locLongitude != null && aData.locLatitude != null) {
+                        aMarkersData.push({
+                            "location": [aData.locLongitude, aData.locLatitude],
+                            "tooltip": "<b>" + aData.name + "</b><br><br>" + aData.street + "<br>" + aData.zipcode + ", " + aData.city + "<br><br><a href=\"timetable.html?targetStation=" + aData.name + "\" target=\"_blank\">Abfahrten und Ankünfte zu diesem Bahnhof anzeigen</a>"
+                        });
+                    }
+                }
+                
+                eMap.option("markers", aMarkersData);
+            });
         }
 
-        addEventListener("resize", (event) => {
-            ResizeMap();
+        const eDropDownFederalStates = $("#drop_down_federalstates").dxDropDownBox({
+            value: sDefaultFederalState,
+            dataSource: EXT_FEDERALSTATES,
+            contentTemplate: function (e) {
+                var $list = $("<div>").dxList({
+                    dataSource: EXT_FEDERALSTATES,
+                    selectionMode: "single",
+                    onSelectionChanged: function (args) {
+                        e.component.option("value", args.addedItems[0]);
+                        e.component.close();
+                    }
+                });
+                return $list;
+            }
+        }).dxDropDownBox("instance");
+
+        eDropDownFederalStates.on("valueChanged", () => {
+            let sFederalState = eDropDownFederalStates.option("value");
+            LoadStations(sFederalState);
         });
+
+        const aMapTypes = [{
+            key: "roadmap",
+            name: "Road Map",
+        }, {
+            key: "satellite",
+            name: "Satellite (Photographic) Map",
+        }, {
+            key: "hybrid",
+            name: "Hybrid Map",
+        }];
+
+        const eMap = $("#map").dxMap({
+            center: "Quedlinburg, Germany",
+            controls: true,
+            height: 10,
+            zoom: 10,
+            width: "100%",
+            provider: "bing",
+            type: aMapTypes[0].key,
+            markers: aMarkersData,
+            markerIconSrc: "img/map-marker.png"
+        }).dxMap("instance");
     </script>
     
+    <!-- Toolbareinstellungen laden -->
     <script type="text/javascript" src="js/toolbar.js"></script>
 </html>

@@ -1,18 +1,22 @@
-/* DBAF-KONSTANTEN */
+/*
+    dbaf.js
+    -------
+    Beinhaltet alle Konstanten bzw. Einstellungen, welche für alle Seiten nötig sind.
+*/
 
-const LIMIT_REQUEST_COUNT = true; // Bei Deaktivierung oder anderweitiger Umgehung dieses Wertes übernehmen wir keine Konsequenzen,
-// wenn Seiten nicht mehr richtig laden o.Ä., da die von der API maximal unterstützte Anfragenzahl überschritten wird 
+// Bei Deaktivierung oder anderweitiger Umgehung dieses Wertes und MAX_REQUEST_COUNT übernehmen wir keine Verantwortung,
+// wenn Seiten nicht mehr richtig laden o.Ä., da die von der API maximal unterstützte Anfragenanzahl pro Minute überschritten wird
+const LIMIT_REQUEST_COUNT = true; 
 
-const MAX_REQUEST_COUNT = 100; // Maximale Anfragen pro Minute, laut der genutzten API
+// Maximale Anfragen pro Minute, laut der genutzten API
+const MAX_REQUEST_COUNT = 100; 
 
-
-/* EINSTELLUNGEN FÜR JEDE DBAF-SEITE EINRICHTEN */
+// Zählung der Anfragenanzahl
+let CURR_REQUEST_COUNT = 0;
 
 // Timer einrichten, welcher alle 60 Sekunden die Anfragen-Anzahl zurücksetzt
-let CURR_REQUEST_COUNT = 0;
-let REQUEST_TIMER = null;
 if (LIMIT_REQUEST_COUNT) {
-    REQUEST_TIMER = setInterval(function () {
+    setInterval(function () {
         CURR_REQUEST_COUNT = 0;
     }, 60000);
 }

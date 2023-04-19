@@ -25,13 +25,23 @@
         <div class="dbaf-toolbar" id="toolbar"></div>
 
         <div class="dbaf-group-main">
-            <h1>Routenplaner</h1>
-            <form id="form-container">
+            <!-- Übersicht der Seite -->
+            <div class="dbaf-group">
+                <h1>Routenplaner</h1>
+                <p>
+                    Im Routenplaner können Start- und Endstation und die gewünschte Startzeit eingegeben werden.<br>
+                    Danach wird angezeigt, wie die nächstmögliche Route verläuft. In der Übersicht werden alle Daten zusammengefasst aufgelistet.
+                </p>
+                <hr>
+            </div>
+
+            <!-- Eingabeformular für die Routenplanung -->
+            <form class="dbaf-group" id="form-container">
                 <div id="routenplanerForm"></div>
             </form>
 
             <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
-            <div id="results">
+            <div class="dbaf-group" id="results">
                 <hr>
                 <div style="margin-bottom: 40px">
                     <!-- Übersicht -->
@@ -48,11 +58,13 @@
             </div>
         </div>
     </body>
+    
+    <!-- DBAF-TODO: Auskommentierung ab hier -->
 
     <script type="text/javascript">
         // Stationen abholen
         let aStationNames = [];
-        let aStations = GetAllStations(() => {
+        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
             aStations.forEach(element => {
                 aStationNames.push(element.name);
             });
@@ -231,5 +243,6 @@
         }).dxDataGrid("instance");
     </script>
     
+    <!-- Toolbareinstellungen laden -->
     <script type="text/javascript" src="js/toolbar.js"></script>
 </html>

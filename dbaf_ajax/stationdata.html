@@ -19,20 +19,37 @@
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/dbaf.js"></script>
         <script type="text/javascript" src="js/request.js"></script>
+        <script type="text/javascript" src="js/ui.js"></script>
     </head>
 
     <body class="dx-viewport">
         <div class="dbaf-toolbar" id="toolbar"></div>
 
         <div class="dbaf-group-main">
-            <h1>Stationsdaten</h1>
-            <div class="dbaf-grid" id="grid_stations"></div>
+            <!-- Übersicht der Seite -->
+            <div class="dbaf-group">
+                <h1>Stationsdaten</h1>
+                <p>
+                    In dieser Tabelle werden alle in Deutschland verfügbaren Bahnhöfe mit verschiedenen Daten angezeigt. <br>
+                    Dieser gesamte Datenbestand kann nach Daten durchsucht, gefiltert und gruppiert werden.
+                </p>
+                <hr>
+            </div>
+
+            <!-- Anzeige aller Bahnhöfe -->
+            <div class="dbaf-group">
+                <div class="dbaf-grid" id="grid_stations"></div>
+            </div>
         </div>
     </body>
 
+    <!-- DBAF-TODO: Auskommentierung ab hier -->
+
     <script type="text/javascript">
+        StickToClient("#grid_stations");
+
         // StationsDaten abhpolen
-        let aStations = GetAllStations(() => {
+        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
             // Grid neuladen
             eGridStations.refresh();
         });
@@ -109,7 +126,7 @@
             
             summary: {
                 totalItems: [{
-                    column: "Name",
+                    column: "name",
                     summaryType: "count"
                 }],
                 groupItems: [{
@@ -119,5 +136,6 @@
         }).dxDataGrid("instance");
     </script>
     
+    <!-- Toolbareinstellungen laden -->
     <script type="text/javascript" src="js/toolbar.js"></script>
 </html>
