@@ -42,10 +42,21 @@
             </div>
         </div>
     </body>
-
-    <!-- DBAF-TODO: Auskommentierung ab hier -->
+    
+    <!-- NOSCRIPT CHECK -->
+    <noscript>
+        JavaScript muss aktiviert sein, um diese Website nutzen zu können!
+    </noscript>
+        
+    <script type="text/javascript">
+        // Anzeige aktivieren
+        $(".dbaf-toolbar").show();
+        $(".dbaf-group-main").show();
+    </script>
+    <!-- NOSCRIPT CHECK -->
 
     <script type="text/javascript">
+        // Grid auf maximale Größe strecken
         StickToClient("#grid_stations");
 
         // StationsDaten abhpolen
@@ -54,6 +65,7 @@
             eGridStations.refresh();
         });
 
+        // Grid für alle Stationen
         let eGridStations = $("#grid_stations").dxDataGrid({
             dataSource: aStations,
             keyExpr: "ID",
@@ -68,15 +80,19 @@
                 expandMode: "rowClick"
             },
 
+            // Größe der Seiten
             pager: {
                 showPageSizeSelector: true,
                 allowedPageSizes: [10, 20, 50],
                 showNavigationButtons: true
             },
 
+            // Steuerungsmöglichkeiten
             toolbar: {
                 items: [
+                    // Gruppierung
                     "groupPanel",
+                    // Option zum Ein- und Ausklappen aller Gruppierungen
                     {
                         location: "after",
                         widget: "dxButton",
@@ -84,35 +100,32 @@
                             text: "Alle einklappen",
                             width: 136,
                             onClick(e) {
+                                // aus- bzw. einklappen
                                 const expanding = e.component.option("text") == "Alle ausklappen";
                                 eGridStations.option("grouping.autoExpandAll", expanding);
                                 e.component.option("text", expanding ? "Alle einklappen" : "Alle ausklappen");
                             },
                         },
                     },
-                    {
-                        name: "addRowButton",
-                        showText: "always"
-                    },
-                    "exportButton",
-                    "columnChooserButton",
+                    // Suche
                     "searchPanel"
                 ]
             },
 
+            // Spalten der Tabelle
             columns: [{
                 dataField: "ID",
                 visible: false
             }, {
                 dataField: "name",
-                sortOrder: "asc",
+                sortOrder: "asc", // Sortierung der Bezeichnung
                 caption: "Bezeichnung",
                 summaryType: "count"
             }, {
                 dataField: "federalState",
                 caption: "Bundesland",
-                groupIndex: 0,
-                sortOrder: "asc"
+                groupIndex: 0, // Gruppierung nach Bundesland
+                sortOrder: "asc" // Sortierung der Gruppierung
             }, {
                 dataField: "city",
                 caption: "Stadt"
@@ -124,11 +137,14 @@
                 caption: "Straße"
             }],
             
+            // Zusammenfassung
             summary: {
+                // Anzahl der Stationen anzeigen
                 totalItems: [{
                     column: "name",
                     summaryType: "count"
                 }],
+                // Anzahl der Station in den Gruppierungen anzeigen
                 groupItems: [{
                     summaryType: "count"
                 }]

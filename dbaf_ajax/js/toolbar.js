@@ -18,7 +18,7 @@ $('#toolbar').dxToolbar({
         locateInMenu: 'never',
         template() {
             // Stationsdaten
-            return $("<div class='toolbar-label'><a href='stationdata.html'>Stationsdaten</a></div>");
+            return $("<div class='toolbar-label'><a href='stationdata.html'>Stations-Daten</a></div>");
         }
     }, {
         location: 'before',

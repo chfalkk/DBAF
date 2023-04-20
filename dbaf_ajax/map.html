@@ -48,76 +48,86 @@
             </div>
         </div>
     </body>
-
-    <!-- DBAF-TODO: Auskommentierung ab hier -->
+    
+    <!-- NOSCRIPT CHECK -->
+    <noscript>
+        JavaScript muss aktiviert sein, um diese Website nutzen zu können!
+    </noscript>
+        
+    <script type="text/javascript">
+        // Anzeige aktivieren
+        $(".dbaf-toolbar").show();
+        $(".dbaf-group-main").show();
+    </script>
+    <!-- NOSCRIPT CHECK -->
 
     <script type="text/javascript">
-        let aMarkersData = [];
         const sDefaultFederalState = "Sachsen-Anhalt";
+
+        // Daten für alle Marker
+        let aMarkersData = [];
+        // Stationen für Sachsen-Anhalt laden
         LoadStations(sDefaultFederalState);
+        // Karte auf maximale Größe strecken
         StickToClient("#map");
 
+        // Lädt alle Daten, gefiltert nach Bundesland, in die Karte
         function LoadStations(FederalState) {
             aMarkersData = [];
 
+            // Alle Stationen abholen
             let aStations = GetAllStations(FederalState, () => {
                 for(let i = 0; i < aStations.length; i++) {
                     let aData = aStations[i];
 
+                    // Wenn Koordinaten vorhanden, dann speichern
                     if (aData.locLongitude != null && aData.locLatitude != null) {
                         aMarkersData.push({
-                            "location": [aData.locLongitude, aData.locLatitude],
-                            "tooltip": "<b>" + aData.name + "</b><br><br>" + aData.street + "<br>" + aData.zipcode + ", " + aData.city + "<br><br><a href=\"timetable.html?targetStation=" + aData.name + "\" target=\"_blank\">Abfahrten und Ankünfte zu diesem Bahnhof anzeigen</a>"
+                            "location": [aData.locLongitude, aData.locLatitude], // Längen und Breitengrad
+                            "tooltip": "<b>" + aData.name + "</b><br><br>" + aData.street + "<br>" + aData.zipcode + ", " + aData.city + "<br><br><a href=\"timetable.html?targetStation=" + aData.name + "\" target=\"_blank\">Abfahrten und Ankünfte zu diesem Bahnhof anzeigen</a>" // Tooltip, welcher angezeigt werden soll
                         });
                     }
                 }
-                
+
+                // Daten aktualisieren
                 eMap.option("markers", aMarkersData);
             });
         }
 
+        // Dropdown für die Bundesland-Auswahl
         const eDropDownFederalStates = $("#drop_down_federalstates").dxDropDownBox({
-            value: sDefaultFederalState,
-            dataSource: EXT_FEDERALSTATES,
+            value: sDefaultFederalState, // Standardwert
+            dataSource: EXT_FEDERALSTATES, // Datenquelle
             contentTemplate: function (e) {
+                // Liste, welche angezeigt wird
                 var $list = $("<div>").dxList({
                     dataSource: EXT_FEDERALSTATES,
                     selectionMode: "single",
                     onSelectionChanged: function (args) {
+                        // Auswahl wurde geändert
                         e.component.option("value", args.addedItems[0]);
                         e.component.close();
+                        
+                        // neuen Filter anwenden
+                        let sFederalState = eDropDownFederalStates.option("value");
+                        LoadStations(sFederalState);
                     }
                 });
                 return $list;
             }
         }).dxDropDownBox("instance");
 
-        eDropDownFederalStates.on("valueChanged", () => {
-            let sFederalState = eDropDownFederalStates.option("value");
-            LoadStations(sFederalState);
-        });
-
-        const aMapTypes = [{
-            key: "roadmap",
-            name: "Road Map",
-        }, {
-            key: "satellite",
-            name: "Satellite (Photographic) Map",
-        }, {
-            key: "hybrid",
-            name: "Hybrid Map",
-        }];
-
+        // Karte
         const eMap = $("#map").dxMap({
-            center: "Quedlinburg, Germany",
-            controls: true,
-            height: 10,
+            center: "Quedlinburg, Germany", // Zentrum setzen
+            controls: true, // Einstellungen anzeigen
+            height: 100,
             zoom: 10,
             width: "100%",
-            provider: "bing",
-            type: aMapTypes[0].key,
-            markers: aMarkersData,
-            markerIconSrc: "img/map-marker.png"
+            provider: "bing", // Bing als Quelle
+            type: "roadmap", // Straßenkarte wird angezeigt
+            markers: aMarkersData, // Marker-Daten
+            markerIconSrc: "img/map-marker.png" // selbsterstelltes Marker-Icon
         }).dxMap("instance");
     </script>
     
