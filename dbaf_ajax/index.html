@@ -15,6 +15,10 @@
         <script type="text/javascript" src="dx_22.2.4/js/dx.all.js"></script>
         <!-- Dictionary files for German language -->
         <script type="text/javascript" src="dx_22.2.4/js/localization/dx.messages.de.js"></script>
+
+        <!-- Fontawesome-Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
         <!-- DBAF -->
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script type="text/javascript" src="js/dbaf.js"></script>
@@ -29,48 +33,48 @@
             <h1>Deutsche Bahn Anwendungs Frontend</h1>
 
             <div class="dbaf-group">
-                <h3>Willkommen!</h3>
+                <h2>Willkommen!</h2>
                 <p>
                     Willkommen im Deutsche Bahn Anwendungs Frontend!<br>
                     Mit Hilfe der V6-DB-Rest-API stellen wir verschiedene Möglichkeiten zur Verfügung, um Daten der Deutschen Bahn auszulesen und übersichtlich darzustellen.
                 </p>
             </div>
 
-            <div class="dbaf-group">
-                <h3>API-Status</h3>
+            <div class="dbaf-group dbaf-api-status">
+                <h2>API-Status</h2>
                 <p>
                     Die API ist zurzeit <span id="api-status"></span>.
                 </p>
             </div>
 
             <div class="dbaf-group">
-                <h3>Unsere Services</h3>
+                <h2>Unsere Services</h2>
                 <p>
                     Wir stellen folgende Dienste bereit:
 
                     <!-- DBAF-TODO -->
                     <div class="dbaf-layout-group">
                         <a class="dbaf-layout-item" href="stationdata.html">
-                            <div>
-                                <h4>Stations-Daten</h4>
+                            <div class="dbaf-layout-inner-container">
+                                <h4><i class="fa-solid fa-database"></i> Stations-Daten</h4>
                                 <p>Anzeige aller verfügbaren Stationen.</p>
                             </div>
                         </a>
                         <a class="dbaf-layout-item" href="timetable.html">
-                            <div>
-                                <h4>Fahrplanauskunft</h4>
+                            <div class="dbaf-layout-inner-container">
+                                <h4><i class="fa-solid fa-location-arrow"></i> Fahrplanauskunft</h4>
                                 <p>Alle Abfahrten und Ankünfte können für eine Station zu einem bestimmten Datum angezeigt werden.</p>
                             </div>
                         </a>
                         <a class="dbaf-layout-item" href="routeplanning.html">
-                            <div>
-                                <h4>Routenplaner</h4>
+                            <div class="dbaf-layout-inner-container">
+                                <h4><i class="fa-solid fa-route"></i> Routenplaner</h4>
                                 <p>Zeigt alle Fahrten zwischen zwei Stationen zu einem bestimmten Abfahrtszeitpunkt an.</p>
                             </div>
                         </a>
                         <a class="dbaf-layout-item" href="map.html">
-                            <div>
-                                <h4>Karte</h4>
+                            <div class="dbaf-layout-inner-container">
+                                <h4><i class="fa-solid fa-map-location-dot"></i> Karte</h4>
                                 <p>Zeigt alle Stationen in Deutschland an, wobei nach Bundesland gefiltert werden kann.</p>
                             </div>
                         </a>
@@ -98,10 +102,10 @@
 
         if (bStatus) {
             // verfügbar ausgeben
-            $("#api-status").html("<span class=\"dbaf-green\">verfügbar</span>");
+            $("#api-status").html("<span class=\"dbaf-green\">verfügbar <i class=\"fa-regular fa-square-check\"></i></span>");
         } else {
             // nicht verfügbar ausgeben
-            $("#api-status").html("<span class=\"dbaf-red\">nicht verfügbar</span>");
+            $("#api-status").html("<span class=\"dbaf-red\">nicht verfügbar <i class=\"fa-regular fa-square-minus\"></i></span>");
         }
 
         ScaleItems();

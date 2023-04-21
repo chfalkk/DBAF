@@ -1,3 +1,5 @@
+@import url(layout.css);
+
 noscript {
     display: block;
     color: #CC0000;
@@ -78,21 +80,4 @@ body {
 
 .dbaf-red {
     color: #CC0000;
-}
-
-/* Layout für Index-Seite */
-.dbaf-layout-group {
-    clear: both;
-}
-
-.dbaf-layout-item {
-    width: 23%;
-    margin-right: 2%;
-    border: 1px solid white;
-    float: left;
-    overflow: hidden;
-}
-
-.dbaf-layout-group .dbaf-layout-item:last-child {
-    margin-right: 0px;
 }
