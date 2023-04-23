@@ -1,7 +1,7 @@
-# DBAF
+# D.B.A.F.
 Deutsche Bahn Anwendungs Frontend
 
-Dieses Projekt dient zur übersichtlichen Darstellung von API-Daten der Deutsche Bahn.
+Dieses Projekt dient zum Abruf und zur übersichtlichen Darstellung von API-Daten der Deutsche Bahn.
 
 ### Funktionen
 - Stations-Daten - Anzeige aller Bahnhöfe deutschlandweit
