@@ -12,11 +12,8 @@ noscript {
 
 body {
     background-color: #2a2a2a; /* vorgegeben durch DevExtreme */
+    min-width: 1000px;
 }
-
-/* .dx-viewport {
-    display: none;
-} */
 
 .dbaf-toolbar {
     border-bottom: 1px solid #FFF;
@@ -80,4 +77,8 @@ body {
 
 .dbaf-red {
     color: #CC0000;
+}
+
+#overview-loaded {
+    display: none; /* wird bei der Laufzeit gesetzt */
 }

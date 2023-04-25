@@ -42,6 +42,8 @@
             <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
             <div class="dbaf-group" id="results">
                 <hr>
+                <h3>Übersicht</h3>
+                <p>Für diese Station ist ein stufenloser Eingang <span class="dbaf-text-bold" id="steplessAccess-status">... </span>.</p>
                 <h3>Abfahrten ab <span id="departures_name"></span></h3>
                 <div class="dbaf-grid" id="departuresTable"></div>
                 <h3>Ankunften in <span id="arrivals_name"></span></h3>
@@ -65,9 +67,9 @@
     <script type="text/javascript">
         // Stationen abholen
         let aStationNames = [];
-        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
+        let aStations = GetAllStations(FEDERALSTATE_ANY, (Data) => {
             // Stationsnamen speichern
-            aStations.forEach(element => {
+            Data.forEach(element => {
                 aStationNames.push(element.name);
             });
 
@@ -85,10 +87,6 @@
                 }
             }
         });
-
-        // Array für Ankunfts- und Abfahrtszeiten
-        let aArrivals = [];
-        let aDepartures = [];
 
         // Eingabeformular
         let eForm = $("#fahrplanForm").dxForm({
@@ -111,7 +109,10 @@
                         dataSource: new DevExpress.data.DataSource({
                             store: aStationNames,
                             paginate: true,
-                            pageSize: 10
+                            pageSize: 10,
+                            sort: [  
+                                { desc: false }  
+                            ] 
                         }),
                         searchEnabled: true
                     },
@@ -145,24 +146,28 @@
             // Fahrplandaten abholen
             let sStationName = eForm.getEditor("stations").option("value");
             let dTargetDate = eForm.getEditor("date").option("value");
-            
             let aStationData = aStations[aStationNames.indexOf(sStationName)];
 
-            // Daten anzeigen
+            // Anzeige aktualisieren
             $("#departures_name").text(sStationName);
             $("#arrivals_name").text(sStationName);
+
+            // Stufenloser Eingang
+            let sSteplessAccess = (aStationData.hasSteplessAccess == true ? "vorhanden" : "nicht vorhanden");
+            $("#steplessAccess-status").text(sSteplessAccess);
+            
             $("#results").show();
 
             // Daten für Abfahrten abholen
-            aDepartures = GetAllDepartures(aStationData.ID, dTargetDate, () => {
+            GetAllDepartures(aStationData.ID, dTargetDate, (Data) => {
                 // Daten aktualisieren
-                eGridDepartures.option("dataSource", aDepartures);
+                eGridDepartures.option("dataSource", Data);
             });
 
             // Daten für Ankünfte abholen
-            aArrivals = GetAllArrivals(aStationData.ID, dTargetDate, () => {
+            GetAllArrivals(aStationData.ID, dTargetDate, (Data) => {
                 // Daten aktualisieren
-                eGridArrivals.option("dataSource", aArrivals);
+                eGridArrivals.option("dataSource", Data);
             });
 
             // Standardevent verhindern
@@ -171,7 +176,7 @@
 
         // Tabelle für alle Abfahrten
         let eGridDepartures = $("#departuresTable").dxDataGrid({
-            dataSource: aDepartures,
+            dataSource: [],
             keyExpr: "ID",
             allowColumnResizing: true,
             allowColumnReordering: true,
@@ -182,7 +187,7 @@
             // Tabelle in Seiten unterteilen
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [10, 20, 50],
+                allowedPageSizes: [10, 20, 50, 100],
                 showNavigationButtons: true
             },
 
@@ -229,7 +234,7 @@
 
         // Tabelle für alle Ankünfte
         let eGridArrivals = $("#arrivalsTable").dxDataGrid({
-            dataSource: aArrivals,
+            dataSource: [],
             keyExpr: "ID",
             allowColumnResizing: true,
             allowColumnReordering: true,
@@ -240,7 +245,7 @@
             // Tabelle in Seiten unterteilen
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [10, 20, 50],
+                allowedPageSizes: [10, 20, 50, 100],
                 showNavigationButtons: true
             },
 

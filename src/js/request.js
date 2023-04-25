@@ -21,7 +21,7 @@ class DBAF_Request {
      * Daten werden in der OnSuccess-Methode zurückgeliefert
      * 
      * @param {String} RequestParam 
-     * @param {Boolean} Async 
+     * @param {Boolean} Async True: wird nebenbei ausgeführt, ohne das der Hauptthread durch die Anfrage blockiert wird, False: wird synchron ausgeführt, d.h. alle anderen Prozesse werden blockert (z.B. die Anzeige wird nicht mehr aktualisiert)
      * @param {(StatusCode: number, Data: object)} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird und den StatusCode inklusive aller Daten durchreicht
      */
     constructor(RequestParam, Async, OnSuccess) {
@@ -131,7 +131,7 @@ const EXT_FEDERALSTATES = [FEDERALSTATE_ANY].concat(FEDERALSTATES);
  * Bahnhöfe in Abhängigkeit des Bundeslandes abholen.
  * 
  * @param {String} FederalState 
- * @param {()} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
+ * @param {([] | null)} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
  * @returns {[]} Array mit allen Stationen von der API
  */
 function GetAllStations(FederalState, OnSuccess = null) {
@@ -159,6 +159,8 @@ function GetAllStations(FederalState, OnSuccess = null) {
                     iLatitude = value.location.latitude;
                 }
 
+                let bSteplessAccess = (value.hasSteplessAccess == "yes" ? true : false);
+
                 aStations.push({
                     "ID": value.id,
                     "name": value.name, // Stationsname
@@ -167,7 +169,8 @@ function GetAllStations(FederalState, OnSuccess = null) {
                     "zipcode": value.address.zipcode, // PLZ
                     "street": value.address.street, // Straße
                     "locLatitude": iLongitude, // Latitude (Breitengrad)
-                    "locLongitude": iLatitude // Longitude (Längengrad)
+                    "locLongitude": iLatitude, // Longitude (Längengrad)
+                    "hasSteplessAccess": bSteplessAccess // Stufenloser Eingang
                 });
                 aIDs.push(value.id);
             }
@@ -175,7 +178,7 @@ function GetAllStations(FederalState, OnSuccess = null) {
 
         // OnSuccess ausführen
         if (OnSuccess != null) {
-            OnSuccess();
+            OnSuccess(aStations);
         }
     });
 
@@ -187,17 +190,18 @@ function GetAllStations(FederalState, OnSuccess = null) {
  * 
  * @param {number} StationID 
  * @param {Date} TargetDate 
- * @param {()} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
+ * @param {([] | null)} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
  * @returns {[]} Array mit allen Ankünften an einer Station
  */
 function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
     let aDepartures = [];
+    let i24h = 60 * 23 + 59; // 23 Std., 59 Min. (der ganze Tag)
 
     TargetDate.setHours(0, 0, 0);
     TargetDate.setMilliseconds(0);
 
     // alle Daten laden
-    let qry = new DBAF_Request("/stops/" + StationID + "/departures?results=10000&when=" + TargetDate.toISOString() + "&duration=" + 60*23+59 + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
+    let qry = new DBAF_Request("/stops/" + StationID + "/departures?results=10000&when=" + TargetDate.toISOString() + "&duration=" + i24h + "&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {  
         let i = 0;
 
         for (item of Data.departures) {
@@ -207,14 +211,13 @@ function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
                 "when": item.when, // wirkliche Abfahrt
                 "direction": item.direction, // Richtung
                 "plannedPlatform": item.plannedPlatform, // geplante Plattform
-                "elevator": "TODO" // DBAF-TODO: Fahrstuhlanzeige
             });
             i++;
         }  
 
         // OnSuccess aufrufen
         if (OnSuccess != null) {
-            OnSuccess();
+            OnSuccess(aDepartures);
         }
     });
 
@@ -226,7 +229,7 @@ function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
  * 
  * @param {number} StationID 
  * @param {Date} TargetDate 
- * @param {()} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
+ * @param {([] | null)} [OnSuccess=] Methode, welche bei Erfolg aufgerufen wird
  * @returns {[]} Array mit allen Ankünften an einer Station
  */
 function GetAllArrivals(StationID, TargetDate, OnSuccess = null) {
@@ -246,14 +249,13 @@ function GetAllArrivals(StationID, TargetDate, OnSuccess = null) {
                 "when": item.when, // wirkliche Ankunft
                 "provenance": item.provenance, // Ursprung
                 "plannedPlatform": item.plannedPlatform, // geplante Plattform
-                "elevator": "TODO"// DBAF-TODO: Fahrstuhlanzeige
             });
             i++;
         }  
 
         // OnSuccess aufrufen
         if (OnSuccess != null) {
-            OnSuccess();
+            OnSuccess(aArrivals);
         }
     });
 
@@ -292,7 +294,7 @@ function ConvertMinutesToStr(Minutes, ShowZero) {
  * @param {number} StartStationID 
  * @param {number} EndStationID 
  * @param {Date} StartDateTime Datum und Uhrzeit, ab wann die nächstmögliche Abfahrt möglich sein sollte. 
- * @param {(TotalWaitingMins: number, TotalTripMins: number, Price: number | null)} [OnSuccess=] Methode, die bei Erolg aufgerufen wird. (Preis ist null, wenn er nicht ermittelt werden konnte)
+ * @param {([] | null)} [OnSuccess=] Methode, die bei Erolg aufgerufen wird. (Preis ist null, wenn er nicht ermittelt werden konnte)
  * @returns {[]} Array mit allen Zwischenstop-Daten
  */
 function GetAllJourneys(StartStationID, EndStationID, StartDateTime, OnSuccess = null) {
@@ -302,6 +304,7 @@ function GetAllJourneys(StartStationID, EndStationID, StartDateTime, OnSuccess =
     }
 
     let aJourneys = [];
+    let aData = [];
 
     // alle Daten laden
     let qry = new DBAF_Request("/journeys?from=" + StartStationID + "&to=" + EndStationID + "&departure=" + StartDateTime.toISOString() + "&transfers=1000&results=1&suburban=false&bus=false&ferry=false&subway=false&tram=false&taxi=false", true, (StatusCode, Data) => {
@@ -362,11 +365,18 @@ function GetAllJourneys(StartStationID, EndStationID, StartDateTime, OnSuccess =
             i++;
         }  
 
+        aData = ({
+            "journeys": aJourneys, // Alle Trip-Daten
+            "totalWaitingMins": iTotalWaitingMins, // gesamte Wartezeit zwischen Trips
+            "totalTripMins": iTotalTripMins, // gesamte Fahrt-/Laufzeit
+            "price": dPrice // Preis (sofern kalkulierbar)
+        });
+
         // OnSuccess aufrufen
         if (OnSuccess != null) {
-            OnSuccess(iTotalWaitingMins, iTotalTripMins, dPrice);
+            OnSuccess(aData);
         }
     });
 
-    return aJourneys;
+    return aData;
 }

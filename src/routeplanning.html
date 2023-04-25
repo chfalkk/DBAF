@@ -46,11 +46,16 @@
                 <div class="dbaf-group">
                     <!-- Übersicht -->
                     <h3>Übersicht</h3>
-                    <p>Die voraussichtliche gesamte Trip-Zeit (Fahrt und zu Fuß) beträgt <span class="dbaf-text-bold" id="totalTripTime">... </span>.</p>
-                    <p>Die voraussichtliche gesamte Wartezeit zwischen Stationen beträgt <span class="dbaf-text-bold" id="totalWaitTime">... </span>.</p>
-                    <p>Die voraussichtliche gesamte Reisezeit beträgt <span class="dbaf-text-bold" id="totalTime">... </span>.</p>
-                    <p>Die Route beinhaltet <span class="dbaf-text-bold" id="totalTransfers">...</span> Umstieg(e) bzw. Laufweg(e).</p>
-                    <p id="price">Die voraussichtlichen Reisekosten betragen <span class="dbaf-text-bold">... </span>.</p>
+                    <div id="overview-loading">
+                        <p>Lädt ...</p>
+                    </div>
+                    <div id="overview-loaded">
+                        <p>Die voraussichtliche gesamte Trip-Zeit (Fahrt und zu Fuß) beträgt <span class="dbaf-text-bold" id="totalTripTime">... </span>.</p>
+                        <p>Die voraussichtliche gesamte Wartezeit zwischen Stationen beträgt <span class="dbaf-text-bold" id="totalWaitTime">... </span>.</p>
+                        <p>Die voraussichtliche gesamte Reisezeit beträgt <span class="dbaf-text-bold" id="totalTime">... </span>.</p>
+                        <p>Die Route beinhaltet <span class="dbaf-text-bold" id="totalTransfers">...</span> Umstieg(e) bzw. Laufweg(e).</p>
+                        <p id="price">Die voraussichtlichen Reisekosten betragen <span class="dbaf-text-bold">... </span>.</p>
+                    </div>
                 </div>
                 <h3>Route von <span id="stationStart"></span> nach <span id="stationEnd"></span></h3>
                 <div class="dbaf-grid" id="journeyTable"></div>
@@ -74,14 +79,11 @@
     <script type="text/javascript">
         // Stationen abholen
         let aStationNames = [];
-        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
-            aStations.forEach(element => {
+        let aStations = GetAllStations(FEDERALSTATE_ANY, (Data) => {
+            Data.forEach(element => {
                 aStationNames.push(element.name);
             });
         });
-
-        // alle Trips
-        let aJourneys = [];
 
         // Eingabeformular
         let eForm = $("#routenplanerForm").dxForm({
@@ -104,7 +106,10 @@
                         dataSource: new DevExpress.data.DataSource({
                             store: aStationNames,
                             paginate: true,
-                            pageSize: 10
+                            pageSize: 10,
+                            sort: [  
+                                { desc: false }  
+                            ] 
                         }),
                         searchEnabled: true // Nutzer darf selber suchen
                     },
@@ -123,7 +128,10 @@
                         dataSource: new DevExpress.data.DataSource({
                             store: aStationNames,
                             paginate: true,
-                            pageSize: 10
+                            pageSize: 10,
+                            sort: [  
+                                { desc: false }  
+                            ] 
                         }),
                         searchEnabled: true // Nutzer darf selber suchen
                     },
@@ -176,29 +184,30 @@
             let aEndStationData = aStations[aStationNames.indexOf(sEndStationName)];
 
             // Daten anzeigen
-            $("#totalTripTime").text("... ");
-            $("#totalWaitTime").text("... ");
-            $("#totalTime").text("... ");
-            $("#totalTransfers").text("...");
-            $("#price").html("Die voraussichtlichen Reisekosten betragen <span class=\"dbaf-text-bold\">... </span>.");
+            $("#overview-loaded").hide();
+            $("#overview-loading").show();
             $("#stationStart").text(sStartStationName);
             $("#stationEnd").text(sEndStationName);
             $("#results").show();
 
             // Daten für alle Trips holen
-            aJourneys = GetAllJourneys(aStartStationData.ID, aEndStationData.ID, dStart, (TotalTripMins, TotalWaitingMins, Price) => {
+            GetAllJourneys(aStartStationData.ID, aEndStationData.ID, dStart, (Data) => {
+                let aJourneys = Data.journeys;
+
                 // Statistiken ausfüllen
-                $("#totalTripTime").text(ConvertMinutesToStr(TotalTripMins, true));
-                $("#totalWaitTime").text(ConvertMinutesToStr(TotalWaitingMins, true));
-                $("#totalTime").text(ConvertMinutesToStr(TotalWaitingMins + TotalTripMins, true));
+                $("#totalTripTime").text(ConvertMinutesToStr(Data.totalTripMins, true));
+                $("#totalWaitTime").text(ConvertMinutesToStr(Data.totalWaitingMins, true));
+                $("#totalTime").text(ConvertMinutesToStr(Data.totalWaitingMins + Data.totalTripMins, true));
                 $("#totalTransfers").text(aJourneys.length - 1);
 
                 // Preis anzeigen, sofern ermittelt
-                if (Price == null) {
+                if (Data.price == null) {
                     $("#price").html("<span id=\"dbaf-text-italic\">Die voraussichtlichen Reisekosten konnten nicht ermittelt werden.</span>");
                 } else {
-                    $("#price").html("Die voraussichtlichen Reisekosten betragen <span class=\"dbaf-text-bold\">" + Price + "€</span>.");
+                    $("#price").html("Die voraussichtlichen Reisekosten betragen <span class=\"dbaf-text-bold\">" + Data.price + "€</span>.");
                 }
+                $("#overview-loading").hide();
+                $("#overview-loaded").show();
 
                 // Daten-Anzeige aktualisieren
                 eGridJourneys.option("dataSource", aJourneys);
@@ -210,7 +219,7 @@
 
         // Tabelle für alle Trips
         let eGridJourneys = $("#journeyTable").dxDataGrid({
-            dataSource: aJourneys,
+            dataSource: [],
             keyExpr: "ID",
             allowColumnResizing: true,
             allowColumnReordering: true,

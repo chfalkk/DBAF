@@ -59,15 +59,15 @@
         // Grid auf maximale Größe strecken
         StickToClient("#grid_stations");
 
-        // StationsDaten abhpolen
-        let aStations = GetAllStations(FEDERALSTATE_ANY, () => {
+        // StationsDaten abholen
+        GetAllStations(FEDERALSTATE_ANY, (Data) => {
             // Grid neuladen
-            eGridStations.refresh();
+            eGridStations.option("dataSource", Data);
         });
 
         // Grid für alle Stationen
         let eGridStations = $("#grid_stations").dxDataGrid({
-            dataSource: aStations,
+            dataSource: [],
             keyExpr: "ID",
             allowColumnResizing: true,
             allowColumnReordering: true,
@@ -83,7 +83,7 @@
             // Größe der Seiten
             pager: {
                 showPageSizeSelector: true,
-                allowedPageSizes: [10, 20, 50],
+                allowedPageSizes: [10, 20, 50, 100, 500],
                 showNavigationButtons: true
             },
 
@@ -135,6 +135,9 @@
             }, {
                 dataField: "street",
                 caption: "Straße"
+            }, {
+                dataField: "hasSteplessAccess",
+                caption: "Stufenloser Eingang"
             }],
             
             // Zusammenfassung

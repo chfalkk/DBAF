@@ -6,51 +6,63 @@
 
 .dbaf-layout-item {
     width: 23%;
-    margin-right: 2%;
-    border: 3px solid white;
+    margin-right: 1.5%;
+    margin-bottom: 20px;
+    border: 2px solid white;
     border-radius: 5px;
     float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+    text-decoration: none;
+    transition: background-color .25s;
+}
+
+.dbaf-layout-item:hover {
+    background-color: #2f2f2f;
 }
 
 .dbaf-layout-group .dbaf-layout-item:last-child {
     margin-right: 0px;
 }
 
-
-.dbaf-layout-inner-container{
+.dbaf-layout-inner-container {
     text-align: center;
+    padding: 5px;
 }
 
 .dbaf-layout-inner-container h4,
-.dbaf-layout-inner-container p,
-.dbaf-layout-inner-container h4:visited,
-.dbaf-layout-inner-container p:visited
-{
-    text-decoration: none;
-    text-align: center;
-    text-decoration: none;
-
+.dbaf-layout-inner-container p {
     color: white;
-}
-
-.dbaf-layout-inner-container h4:hover,
-.dbaf-layout-inner-container p:hover
-{
-    text-decoration: none;
-    text-align: center;
-
-    text-decoration: none;
+    vertical-align: middle;
 }
 
 
-.dbaf-layout-inner-container h4:hover{
-    transform: scale(125%);
+.dbaf-layout-inner-container h4 {
+    font-size: 22px;
+    margin-top: 0;
+    transition: .25s;
 }
 
+.dbaf-layout-inner-container p {
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.dbaf-layout-inner-container h4:hover {
+    transform: scale(120%);
+}
+
+/* bei kleiner Client-Breite */
+
+@media (max-width:960px) {
+    .dbaf-layout-item {
+        width: 45%;
+    }
+}
 
 /* API-Status */
-
 
 .dbaf-api-status{
     text-decoration: none;
