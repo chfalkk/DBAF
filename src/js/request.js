@@ -205,12 +205,17 @@ function GetAllDepartures(StationID, TargetDate, OnSuccess = null) {
         let i = 0;
 
         for (item of Data.departures) {
+            sPlannedPlatform = "unbekannt";
+            if (item.plannedPlatform != null) {
+                sPlannedPlatform = item.plannedPlatform;
+            }
+
             aDepartures.push({
                 "ID": "" + i,
                 "plannedWhen": item.plannedWhen, // geplante Abfahrt
                 "when": item.when, // wirkliche Abfahrt
                 "direction": item.direction, // Richtung
-                "plannedPlatform": item.plannedPlatform, // geplante Plattform
+                "plannedPlatform": sPlannedPlatform, // geplante Plattform
             });
             i++;
         }  
@@ -243,12 +248,17 @@ function GetAllArrivals(StationID, TargetDate, OnSuccess = null) {
         let i = 0;
 
         for (item of Data.arrivals) {
+            sPlannedPlatform = "unbekannt";
+            if (item.plannedPlatform != null) {
+                sPlannedPlatform = item.plannedPlatform;
+            }
+
             aArrivals.push({
                 "ID": "" + i,
                 "plannedWhen": item.plannedWhen, // geplante Ankunft
                 "when": item.when, // wirkliche Ankunft
                 "provenance": item.provenance, // Ursprung
-                "plannedPlatform": item.plannedPlatform, // geplante Plattform
+                "plannedPlatform": sPlannedPlatform, // geplante Plattform
             });
             i++;
         }  

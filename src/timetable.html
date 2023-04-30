@@ -42,8 +42,10 @@
             <!-- Ergebnisse, wenn Anfrage abgeschickt wurde: -->
             <div class="dbaf-group" id="results">
                 <hr>
-                <h3>Übersicht</h3>
-                <p>Für diese Station ist ein stufenloser Eingang <span class="dbaf-text-bold" id="steplessAccess-status">... </span>.</p>
+                <div class="dbaf-group">
+                    <h3>Übersicht</h3>
+                    <p>Für diese Station ist ein stufenloser Eingang <span class="dbaf-text-bold" id="steplessAccess-status">... </span>.</p>
+                </div>
                 <h3>Abfahrten ab <span id="departures_name"></span></h3>
                 <div class="dbaf-grid" id="departuresTable"></div>
                 <h3>Ankunften in <span id="arrivals_name"></span></h3>
@@ -217,9 +219,6 @@
             }, {
                 dataField: "plannedPlatform",
                 caption: "Plattform"
-            }, {
-                dataField: "elevator",
-                caption: "Fahrstuhl zum Gleis"
             }],
             
             // Zusammenfassung
@@ -275,9 +274,6 @@
             }, {
                 dataField: "plannedPlatform",
                 caption: "Plattform"
-            }, {
-                dataField: "elevator",
-                caption: "Fahrstuhl zum Gleis"
             }],
             
             // Zusammenfassung
