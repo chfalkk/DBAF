@@ -12,6 +12,6 @@ Diese Version des Projekt ist nicht einsatzfähig und enthält einige alte Stän
 <summary>Ist er einsatz- bzw. betriebsfähig?</summary>
 
 > Nein.
-> Für weitere Infos folgen sie [diesem Link](https://www.youtube.com/watch?v=o-YBDTqX_ZU).
+> Für weitere Infos folgen Sie [diesem Link](https://www.youtube.com/watch?v=o-YBDTqX_ZU).
 
 </details>
